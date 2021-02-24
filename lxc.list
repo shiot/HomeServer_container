@@ -1,4 +1,4 @@
-NASLXC=( \
+( \
   Heimdall "Dashboard Startseite" on \
   ReverseProxy "NGINX Proxy Manager" on \
   ExitAccess "piHole mit piVPN" on \
@@ -12,12 +12,4 @@ NASLXC=( \
   nextCloud "Ein eigene Cloudserver" off \
   #ecoDMS "Dokumentenmanagementsystem" off \
   Downloadserver "!!! NUR ZU SCHLUNGSZWECKEN !!!" off \
-)
-noNASLXC=( \
-  Heimdall "Dashboard Startseite" on \
-  ReverseProxy "NGINX Proxy Manager" on \
-  ExitAccess "piHole mit piVPN" on \
-  iDBGrafana "influxDB mit Grafana" on \
-  ioBroker "Steuere dein SmartHome" off \
-  3cx "Telefonanlage der Enterpriseklasse " off \
 )
