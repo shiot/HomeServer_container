@@ -1,0 +1,8 @@
+( \
+  Heimdall "Dashboard Startseite" on \
+  ReverseProxy "NGINX Proxy Manager" on \
+  ExitAccess "piHole mit piVPN" on \
+  iDBGrafana "influxDB mit Grafana" on \
+  ioBroker "Steuere dein SmartHome" off \
+  3cx "Telefonanlage der Enterpriseklasse " off \
+)
