@@ -17,7 +17,7 @@ containerSoftware="iperf libicu57 dphys-swapfile 3cxpbx"            # Space sepa
 fwPort=( 5015 5001 5062 5062 5063 5090 5090 "9000:10999" )
 fwNetwork=( network pnetwork "" "" "" "" "" "" )
 fwProtocol=( tcp tcp udp tcp tcp udp tcp udp )
-fwDescription=( "Weboberfläche zur Ersteinrichtung" "Weboberfläche" "SIP" "SIP" "secure SIP" "Tunnel" "Tunnel" "RTP" )
+fwDescription=( $fw_description1 $fw_description2 $fw_description3 $fw_description3 $fw_description4 $fw_description5 $fw_description5 $fw_description6 )
 
 # Commands to be executed in the container's shell before the actual software is installed. For example, generating a repository
 # list (echo \"deb https://download.example.com/repo/ubuntu focal main\" | tee /etc/apt/sources.list.d/example.list) or adding a
@@ -40,13 +40,13 @@ commandsFirst="\
 #"
 containerDescription=$(echo -e "\ 
 WebGUI (Administration)
-Adresse:      http://$ctIP:5001
-Benutzer:     Administrator
-Passwort:     changeme
+$lng_webadress:      http://$ctIP:5001
+$lng_user:     Administrator
+$lng_password:     changeme
 WebGUI (User)
-Adresse:      http://$ctIP:5001/webclient
-Benutzer:     Nebenstellennummer
-Passwort:     wird per E-Mail verschickt
-WebGUI (Ersteinrichtung)
-Adresse:      http://$ctIP:5015?v=2
+$lng_webadress:      http://$ctIP:5001/webclient
+$lng_user:     $ct_description1
+$lng_password:     $ct_description2
+WebGUI ($ct_description3)
+$lng_webadress:      http://$ctIP:5015?v=2
 ")
