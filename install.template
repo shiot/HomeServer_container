@@ -5,7 +5,7 @@ nasneeded=true                  # Container need/can have a NAS
 dvbneeded=false                 # Container need/can have a DVB/TV-Card
 vganeeded=false                 # Container need/can have a VGA-Card
 ctTemplate=Linux                # Type of Hostsystem - ubuntu, debian, so on
-hostname=Hostname               # Name of the Container
+lxchostname=Hostname            # Name of the Container
 hddsize=4                       # HDD Size in GB
 cpucores=1                      # Number of CPU cores
 memory=512                      # Memorysize in MB
@@ -22,26 +22,25 @@ fwProtocol=( tcp tcp udp tcp )
 # list (echo \"deb https://download.example.com/repo/ubuntu focal main\" | tee /etc/apt/sources.list.d/example.list) or adding a
 # PPA, for example (apt-add-repository -y ppa:example/example). or download a Docker-Compose configuration file (wget -qO - /root/docker/file.conf https://example.domain.com/file.conf).
 # Finish every Command line with space Backslash.
-commandsFirst="\                
-              Command1 \        
-              Command2 \        # 
-              Command3 \        # 
+# If you install a SQL database and need to do a SQL secure, this can be done with the command/call to the function "lxcSQLSecure".
+commandsFirst="\
+              Command1 \ 
+              Command2 \ 
+              Command3 \ 
 "
 
 # Commands to be executed in the container's shell before the actual software is installed. For example, generating a repository
 # list (echo \"deb https://download.example.com/repo/ubuntu focal main\" | tee /etc/apt/sources.list.d/example.list) or adding a
 # PPA, for example (apt-add-repository -y ppa:example/example). or download a Docker-Compose configuration file (wget -qO - /root/docker/file.conf https://example.domain.com/file.conf).
 # Finish every Command line with space Backslash.
-commandsSecond="\               
-               Command1 \       # 
-               Command2 \       # 
-               Command3 \       # 
+commandsSecond="\ 
+               Command1 \ 
+               Command2 \ 
+               Command3 \ 
 "
-containerDescription=$(echo -e "\
+containerDescription=$(echo -e "\ 
 WebGUI
 Adresse:      http://$ctIP:3030
 Benutzer:     Administrator
 Passwort:     changeme
 ")
-
-echo -e "XXX\n99\n$lng_lxc_create_text_firewall\nXXX"
