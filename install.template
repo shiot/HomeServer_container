@@ -12,7 +12,7 @@ memory=512                      # Memorysize in MB
 swap=512                        # SWAP size in MB
 unprivileged=1                  # Privileged/Unprivileged Container, 0=False - 1=True
 features=""                     # force_rw_sys=<1|0>,fuse=<1|0>,keyctl=<1|0>,mknod=<1|0>,mount=<fstype;fstype;...>,nesting=<1|0> in quotation marks
-containerFolder=""              # Space separated list of folders ("/root/DOCKER" "/media/movies")
+containerFolder=""              # Space separated list of folders ("/root/DOCKER" "/media/movies") - NAS Folders will create automaticly (/mnt/backup and /media)
 containerSoftware=""            # Space separated list of packages to install (curl wget)
 fwPort=( 3225 5422 32400 8096 )
 fwNetwork=( network pnetwork network network )
