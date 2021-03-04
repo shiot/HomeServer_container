@@ -4,7 +4,7 @@ ctRootpw=$(createPassword 12)   # Create Rootpassword for Container
 nasneeded=true                  # Container need/can have a NAS
 dvbneeded=false                 # Container need/can have a DVB/TV-Card
 vganeeded=false                 # Container need/can have a VGA-Card
-ctTemplate=debian9                # Type of Hostsystem - ubuntu, debian, so on
+ctTemplate=osDebian9                # Type of Hostsystem - ubuntu, debian, so on
 lxchostname=3cx            # Name of the Container
 hddsize=32                       # HDD Size in GB
 cpucores=1                      # Number of CPU cores
@@ -18,6 +18,7 @@ fwPort=( 5015 5001 5062 5062 5063 5090 5090 "9000:10999" )
 fwNetwork=( network pnetwork "" "" "" "" "" "" )
 fwProtocol=( tcp tcp udp tcp tcp udp tcp udp )
 fwDescription=( $fw_description1 $fw_description2 $fw_description3 $fw_description3 $fw_description4 $fw_description5 $fw_description5 $fw_description6 )
+functions=""                    # Functions in this template that are executed after a container restart
 
 # Commands to be executed in the container's shell before the actual software is installed. For example, generating a repository
 # list (echo \"deb https://download.example.com/repo/ubuntu focal main\" | tee /etc/apt/sources.list.d/example.list) or adding a
