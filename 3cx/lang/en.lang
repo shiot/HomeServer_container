@@ -1,0 +1,11 @@
+#!/bin/bash
+
+fw_description1="Web interface for initial setup"
+fw_description2="Web interface"
+fw_description3="SIP"
+fw_description4="secure SIP"
+fw_description5="Tunnel"
+fw_description6="RTP"
+ct_description1="Extension number"
+ct_description2="will be sent by e-mail"
+ct_description3="Initial setup"
