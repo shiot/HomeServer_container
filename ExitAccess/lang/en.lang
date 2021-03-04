@@ -1,0 +1,7 @@
+#!/bin/bash
+
+add_vpn_user_title="User"
+add_vpn_user_info="A user is created with the following data:\nUser"
+add_vpn_user_info1="\nPassword"
+add_vpn_user_info2="\n\nThe account is valid for 1800 days"
+add_vpn_user_ask="Do you want to create another VPN user?"
