@@ -17,6 +17,7 @@ containerSoftware=""            # Space separated list of packages to install (c
 fwPort=( 3225 5422 32400 8096 )
 fwNetwork=( network pnetwork network network )
 fwProtocol=( tcp tcp udp tcp )
+functions=""                    # Functions in this template that are executed after a container restart
 
 # Commands to be executed in the container's shell before the actual software is installed. For example, generating a repository
 # list (echo \"deb https://download.example.com/repo/ubuntu focal main\" | tee /etc/apt/sources.list.d/example.list) or adding a
