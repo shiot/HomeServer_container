@@ -17,6 +17,7 @@ containerSoftware="docker.io docker-compose"            # Space separated list o
 fwPort=( 80 443 81 )
 fwNetwork=( network pnetwork network )
 fwProtocol=( tcp tcp tcp )
+fwDescription=( HTTP HTTPS Adminpanel )
 functions=""                    # Functions in this template that are executed after a container restart
 
 # Commands to be executed in the container's shell before the actual software is installed. For example, generating a repository
