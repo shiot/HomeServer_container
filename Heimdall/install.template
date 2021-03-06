@@ -1,0 +1,45 @@
+#!/bin/bash
+
+ctRootpw=$(createPassword 12)   # Create Rootpassword for Container
+nasneeded=true                  # Container need/can have a NAS
+dvbneeded=false                 # Container need/can have a DVB/TV-Card
+vganeeded=false                 # Container need/can have a VGA-Card
+ctTemplate=osUbuntu                # Type of Hostsystem - ubuntu, debian, so on
+lxchostname=Heimdall            # Name of the Container
+hddsize=4                       # HDD Size in GB
+cpucores=1                      # Number of CPU cores
+memory=256                      # Memorysize in MB
+swap=256                        # SWAP size in MB
+unprivileged=1                  # Privileged/Unprivileged Container, 0=False - 1=True
+features="keyctl=1,nesting=1"                     # force_rw_sys=<1|0>,fuse=<1|0>,keyctl=<1|0>,mknod=<1|0>,mount=<fstype;fstype;...>,nesting=<1|0> in quotation marks
+containerFolder="/root/heimdall/"              # Space separated list of folders ("/root/DOCKER" "/media/movies") - NAS Folders will create automaticly (/mnt/backup and /media)
+containerSoftware="docker.io docker-compose"            # Space separated list of packages to install (curl wget)
+fwPort=( 80 443 )
+fwNetwork=( network pnetwork )
+fwProtocol=( tcp tcp )
+functions=""                    # Functions in this template that are executed after a container restart
+
+# Commands to be executed in the container's shell before the actual software is installed. For example, generating a repository
+# list (echo \"deb https://download.example.com/repo/ubuntu focal main\" | tee /etc/apt/sources.list.d/example.list) or adding a
+# PPA, for example (apt-add-repository -y ppa:example/example). or download a Docker-Compose configuration file (wget -qO - /root/docker/file.conf https://example.domain.com/file.conf).
+# Finish every Command line with space Backslash.
+# If you install a SQL database and need to do a SQL secure, this can be done with the command/call to the function "lxcSQLSecure".
+#commandsFirst="\
+#              Command1 \ 
+#              Command2 \ 
+#              Command3 \ 
+#"
+
+# Commands to be executed in the container's shell before the actual software is installed. For example, generating a repository
+# list (echo \"deb https://download.example.com/repo/ubuntu focal main\" | tee /etc/apt/sources.list.d/example.list) or adding a
+# PPA, for example (apt-add-repository -y ppa:example/example). or download a Docker-Compose configuration file (wget -qO - /root/docker/file.conf https://example.domain.com/file.conf).
+# Finish every Command line with space Backslash.
+commandsSecond="\ 
+               systemctl start docker && systemctl enable docker > /dev/null 2>&1 \ 
+               wget -qO /root/heimdall/docker-compose.yml $containerURL/$lxcName/docker-compose.yml \ 
+               cd heimdall && docker-compose up -d --quiet-pull > /dev/null 2>&1 \ 
+"
+containerDescription=$(echo -e "\ 
+WebGUI
+$lng_webadress:      http://$ctIP
+")
