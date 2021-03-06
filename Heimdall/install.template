@@ -37,7 +37,7 @@ functions=""                    # Functions in this template that are executed a
 commandsSecond="\ 
                systemctl start docker && systemctl enable docker > /dev/null 2>&1 \ 
                wget -qO /root/heimdall/docker-compose.yml $containerURL/$lxcName/docker-compose.yml \ 
-               cd heimdall && docker-compose up -d --quiet-pull > /dev/null 2>&1 \ 
+               cd /root/heimdall && docker-compose up -d --quiet-pull > /dev/null 2>&1 \ 
 "
 containerDescription=$(echo -e "\ 
 WebGUI
