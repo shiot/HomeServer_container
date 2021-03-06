@@ -25,7 +25,7 @@ functions=""                    # Functions in this template that are executed a
 # PPA, for example (apt-add-repository -y ppa:example/example). or download a Docker-Compose configuration file (wget -qO - /root/docker/file.conf https://example.domain.com/file.conf).
 # Finish every Command line with space Backslash.
 # If you install a SQL database and need to do a SQL secure, this can be done with the command/call to the function "lxcSQLSecure".
-commandsFirst="\
+commandsFirst="\ 
               Command1 \ 
               Command2 \ 
               Command3 \ 
