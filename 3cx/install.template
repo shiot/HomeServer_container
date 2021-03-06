@@ -25,7 +25,7 @@ functions=""                    # Functions in this template that are executed a
 # PPA, for example (apt-add-repository -y ppa:example/example). or download a Docker-Compose configuration file (wget -qO - /root/docker/file.conf https://example.domain.com/file.conf).
 # Finish every Command line with space Backslash.
 # If you install a SQL database and need to do a SQL secure, this can be done with the command/call to the function "lxcSQLSecure".
-commandsFirst="\
+commandsFirst="\ 
               wget -qO - http://downloads-global.3cx.com/downloads/3cxpbx/public.key | apt-key add - > /dev/null 2>&1 \ 
               echo \"deb http://downloads-global.3cx.com/downloads/debian stretch main\" | tee /etc/apt/sources.list.d/3cxpbx.list > /dev/null 2>&1 \ 
 "
