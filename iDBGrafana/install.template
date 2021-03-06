@@ -54,10 +54,10 @@ commandsSecond="\
                systemctl daemon-reload && systemctl enable grafana-server > /dev/null 2>&1 && systemctl start grafana-server \ 
 "
 containerDescription=$(echo -e "\ 
-WebGUI
-Adresse:      http://$ctIP:3030
-Benutzer:     Administrator
-Passwort:     changeme
+WebGUI (Grafana)
+$lng_webadress:      http://$ctIP:3000
+$lng_user:     admin
+$lng_password:     changeme
 ")
 
 echo -e "influxdb: InfluxDB\n        port 8089\n        server $nextCTIP" > /etc/pve/status.cfg
