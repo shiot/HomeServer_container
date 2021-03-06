@@ -17,6 +17,7 @@ containerSoftware=""            # Space separated list of packages to install (c
 fwPort=( 3225 5422 32400 8096 )
 fwNetwork=( network pnetwork network network )
 fwProtocol=( tcp tcp udp tcp )
+fwDescription=( rule1 rule2 rule3 rule4 )
 functions=""                    # Functions in this template that are executed after a container restart
 
 # Commands to be executed in the container's shell before the actual software is installed. For example, generating a repository
