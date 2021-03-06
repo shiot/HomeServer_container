@@ -20,8 +20,6 @@ fwProtocol=( tcp tcp tcp tcp udp tcp )
 fwDescription=( samba piHole piHole piHole piHole VPN )
 functions="addVPNUser"                    # Functions in this template that are executed after a container restart
 
-publicIP=$(dig @resolver4.opendns.com myip.opendns.com +short)
-
 function addVPNUser() {
   pw=$(createPassword 12)
   vpnuser=$(whiptail --inputbox --ok-button "$lng_ok" --cancel-button "$lng_cancel" --backtitle "SmartHome-IoT.net - piVPN" --title "$add_vpn_user_title" "$pivpn_info" 20 70 MaxNotebook 3>&1 1>&2 2>&3)
