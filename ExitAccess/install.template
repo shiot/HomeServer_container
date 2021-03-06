@@ -57,7 +57,8 @@ commandsFirst="\
               wget -qO /etc/pivpn/openvpn/setupVars.conf $containerURL/$lxcName/piVPN_setupVars.conf \ 
               lxcfqdn=$(whiptail --inputbox --nocancel --backtitle "SmartHome-IoT.net - piVPN" --title "Hostname - $pivpn_title" "Wie lautet der Hostname (FQDN) oder die öffentliche IP zu diesem Container?" ${r} ${c} $publicIP 3>&1 1>&2 2>&3) \ 
               sed -i 's#HOSTTOCHANGE#$lxcfqdn#g' /etc/pivpn/openvpn/setupVars.conf \ 
-              curl -sSL https://install.pivpn.io | bash /dev/stdin --unattended /etc/pivpn/openvpn/setupVars.conf > /dev/null 2>&1
+              curl -sSL https://install.pivpn.io | bash /dev/stdin --unattended /etc/pivpn/openvpn/setupVars.conf > /dev/null 2>&1 \ 
+              export PATH=\"/usr/local/bin:$PATH\" \ 
 "
 
 # Commands to be executed in the container's shell before the actual software is installed. For example, generating a repository
@@ -66,7 +67,7 @@ commandsFirst="\
 # Finish every Command line with space Backslash.
 commandsSecond="\ 
                rm /etc/samba/smb.conf \ 
-               wget -qO /etc/samba/smb.conf $containerURL/$lxcName/samba.conf \ 
+               wget -qO /etc/samba/smb.conf $containerURL/$lxcName/smb.conf \ 
                chmod -R 775 /home/pivpn/ovpns \ 
                systemctl restart smbd \ 
 "
@@ -75,4 +76,7 @@ WebGUI (piHole)
 $lng_webadress:      http://$ctIP/admin
 $lng_user:
 $lng_password:     changeme
+
+$ct_description_head
+Windows:    \\\\$ctIP
 ")
