@@ -17,6 +17,7 @@ containerSoftware="samba samba-common-bin"            # Space separated list of 
 fwPort=( 445 80 443 53 67 4711 )
 fwNetwork=( network network pnetwork pnetwork network network )
 fwProtocol=( tcp tcp tcp tcp udp tcp )
+fwDescription=( samba piHole piHole piHole piHole VPN )
 functions="addVPNUser"                    # Functions in this template that are executed after a container restart
 
 publicIP=$(dig @resolver4.opendns.com myip.opendns.com +short)
