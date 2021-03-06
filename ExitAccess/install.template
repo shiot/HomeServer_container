@@ -23,11 +23,11 @@ publicIP=$(dig @resolver4.opendns.com myip.opendns.com +short)
 
 function addVPNUser() {
   pw=$(createPassword 12)
-  vpnuser=$(whiptail --inputbox --ok-button "$lng_ok" --cancel-button "$lng_cancel" --backtitle "SmartHome-IoT.net - piVPN" --title "$add_vpn_user_title" "Um Verbindungsprobleme zu vermeiden, sollte pro Endgerät das sich\nverbindet ein eigener Benutzer erstellt werden.\n\nWelchen Namen soll der VPN-Benutzer erhalten?" 20 70 MaxHandy 3>&1 1>&2 2>&3)
+  vpnuser=$(whiptail --inputbox --ok-button "$lng_ok" --cancel-button "$lng_cancel" --backtitle "SmartHome-IoT.net - piVPN" --title "$add_vpn_user_title" "$pivpn_info" 20 70 MaxNotebook 3>&1 1>&2 2>&3)
   exitstatus=$?
   if [[ "$exitstatus" = 1 ]]; then return 1; fi
-  whiptail --msgbox --backtitle "SmartHome-IoT.net - piVPN" --title "$add_vpn_user_title" "$add_vpn_user_info ${vpnuser} $add_vpn_user_info1 ${pw} $add_vpn_user_info2" 20 70
-  pct exec $ctID -- bash -ci "pivpn add -n $vpnuser -p $pw -d 1800"
+  whiptail --msgbox --backtitle "SmartHome-IoT.net - piVPN" --title "$add_vpn_user_title" "$add_vpn_user_info \n$lng_user ${vpnuser} \n$lng_password ${pw} \n\n$add_vpn_user_info1" 20 70
+  pct exec $ctID -- bash -ci "pivpn add -n ${vpnuser} -p ${pw} -d 1800"
   whiptail --yesno --backtitle "SmartHome-IoT.net - piVPN" --title "$add_vpn_user_title" "$add_vpn_user_ask" 20 70
   yesno=$?
   if [[ $yesno == 0 ]]; then
@@ -49,11 +49,13 @@ commandsFirst="\
               curl -sSL https://install.pi-hole.net | bash /dev/stdin --unattended > /dev/null 2>&1 \ 
               /usr/local/bin/pihole -a -p changeme > /dev/null 2>&1 \ 
               curl -sSL $containerURL/$lxcName/updateAdlistPihole.sh | bash \ 
+              wget -qO /root/updateAdlistPihole.sh $containerURL/$lxcName/updateAdlistPihole.sh && chmod +x /root/updateAdlistPihole.sh \ 
+              crontab -l | { cat; echo \"0 03 1,14 * *   root    /root/updateAdlistPihole.sh\"; } | crontab -
               useradd -m -p $ctRootpw pivpn \ 
               mkdir -p /home/pivpn/openvpns/ \ 
               chown -R pivpn:pivpn /home/pivpn/openvpns/ \ 
               wget -qO /etc/pivpn/openvpn/setupVars.conf $containerURL/$lxcName/piVPN_setupVars.conf \ 
-              lxcfqdn=$(whiptail --inputbox --nocancel --backtitle "SmartHome-IoT.net - piVPN" --title "Hostname - öffentliche IP" "Wie lautet der Hostname (FQDN) oder die öffentliche IP zu diesem Container?" ${r} ${c} $publicIP 3>&1 1>&2 2>&3) \ 
+              lxcfqdn=$(whiptail --inputbox --nocancel --backtitle "SmartHome-IoT.net - piVPN" --title "Hostname - $pivpn_title" "Wie lautet der Hostname (FQDN) oder die öffentliche IP zu diesem Container?" ${r} ${c} $publicIP 3>&1 1>&2 2>&3) \ 
               sed -i 's#HOSTTOCHANGE#$lxcfqdn#g' /etc/pivpn/openvpn/setupVars.conf \ 
               curl -sSL https://install.pivpn.io | bash /dev/stdin --unattended /etc/pivpn/openvpn/setupVars.conf > /dev/null 2>&1
 "
