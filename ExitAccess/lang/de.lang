@@ -1,7 +1,9 @@
 #!/bin/bash
 
+pivpn_info="Um Verbindungsprobleme zu vermeiden, sollte pro Endgerät das sich\nverbindet ein eigener Benutzer erstellt werden.\n\nWelchen Namen soll der VPN-Benutzer erhalten?"
+pivpn_title="externer Zugriff"
+pivpn_text="Wie lautet der Hostname (FQDN) oder die öffentliche IP zu diesem Container?"
 add_vpn_user_title="Benutzer"
-add_vpn_user_info="Es wird ein Benutzer mit folgenden Daten erstellt:\nBenutzer"
-add_vpn_user_info1="\nPasswort"
-add_vpn_user_info2="\n\nDas Konto ist 1800 Tage gültig"
+add_vpn_user_info="Es wird ein Benutzer mit folgenden Daten erstellt:"
+add_vpn_user_info1="Das Konto ist 1800 Tage gültig"
 add_vpn_user_ask="Möchtest du einen weiteren VPN Benutzer anlegen?"
