@@ -42,7 +42,7 @@ commandsSecond="\
 "
 containerDescription=$(echo -e "\ 
 WebGUI
-Adresse:      http://$ctIP:3030
-Benutzer:     Administrator
-Passwort:     changeme
+$lng_webadress:      http://$ctIP:12345
+$lng_user:     admin
+$lng_password:     changeme
 ")
