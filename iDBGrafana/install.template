@@ -60,4 +60,8 @@ $lng_user:     admin
 $lng_password:     changeme
 ")
 
-echo -e "influxdb: InfluxDB\n        port 8089\n        server $nextCTIP" > /etc/pve/status.cfg
+# Commands to be executes in the Host (Proxmox) shell. For example (echo -e "influxdb: InfluxDB\n        port 8089\n        server $nextCTIP" > /etc/pve/status.cfg) to connect your Proxmox
+# Host to influxDB as metric Server.
+pveCommands="\ 
+              echo -e "influxdb: InfluxDB\n        port 8089\n        server $nextCTIP" > /etc/pve/status.cfg \ 
+"
