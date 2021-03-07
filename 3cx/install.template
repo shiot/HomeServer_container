@@ -51,3 +51,11 @@ $lng_password:     $ct_description2
 WebGUI ($ct_description3)
 $lng_webadress:      http://$ctIP:5015?v=2
 ")
+
+# Commands to be executes in the Host (Proxmox) shell. For example (echo -e "influxdb: InfluxDB\n        port 8089\n        server $nextCTIP" > /etc/pve/status.cfg) to connect your Proxmox
+# Host to influxDB as metric Server.
+#pveCommands="\ 
+#              Command1 \ 
+#              Command2 \ 
+#              Command3 \ 
+#"
