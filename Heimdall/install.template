@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ctRootpw=$(createPassword 12)   # Create Rootpassword for Container
-nasneeded=true                  # Container need/can have a NAS
+nasneeded=false                  # Container need/can have a NAS
 dvbneeded=false                 # Container need/can have a DVB/TV-Card
 vganeeded=false                 # Container need/can have a VGA-Card
 ctTemplate=osUbuntu                # Type of Hostsystem - ubuntu, debian, so on
