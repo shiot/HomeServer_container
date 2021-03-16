@@ -25,11 +25,7 @@ functions=""                    # Functions in this template that are executed a
 # PPA, for example (apt-add-repository -y ppa:example/example). or download a Docker-Compose configuration file (wget -qO - /root/docker/file.conf https://example.domain.com/file.conf).
 # Finish every Command line with space Backslash.
 # If you install a SQL database and need to do a SQL secure, this can be done with the command/call to the function "lxcSQLSecure".
-#commandsFirst="\
-#              Command1 \ 
-#              Command2 \ 
-#              Command3 \ 
-#"
+commandsFirst=""
 
 # Commands to be executed in the container's shell before the actual software is installed. For example, generating a repository
 # list (echo \"deb https://download.example.com/repo/ubuntu focal main\" | tee /etc/apt/sources.list.d/example.list) or adding a
@@ -47,8 +43,4 @@ $lng_webadress:      http://"$ctIP"
 
 # Commands to be executes in the Host (Proxmox) shell. For example (echo -e "influxdb: InfluxDB\n        port 8089\n        server $nextCTIP" > /etc/pve/status.cfg) to connect your Proxmox
 # Host to influxDB as metric Server.
-#pveCommands="\ 
-#              Command1 \ 
-#              Command2 \ 
-#              Command3 \ 
-#"
+pveCommands=""
