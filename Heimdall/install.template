@@ -38,7 +38,7 @@ commandsSecond="\
 "
 containerDescription=$(echo -e "
 WebGUI
-$lng_webadress:      http://"$ctIP"
+$lng_webadress:      http://$ctIP
 ")
 
 # Commands to be executes in the Host (Proxmox) shell. For example (echo -e "influxdb: InfluxDB\n        port 8089\n        server $nextCTIP" > /etc/pve/status.cfg) to connect your Proxmox
