@@ -1,10 +1,17 @@
 #!/bin/bash
 
 ctRootpw=$(createPassword 12)   # Create Rootpassword for Container
+description="Stellt eine Netzwerkweite Startseite zur Verfügung."   # Container Description
 nasneeded=false                 # Container need/can have a NAS
 dvbneeded=false                 # Container need/can have a DVB/TV-Card
 vganeeded=false                 # Container need/can have a VGA-Card
-ctTemplate=osUbuntu                # Type of Hostsystem - ubuntu, debian, so on
+samba=false                     # Container use Smaba
+webgui=true                     # Container has a WebGUI True ot False
+webguiPort=( "80" )             # WebGUI Port
+webguiProtocol=( "http" )
+webguiUser=( "admin" )          # WebGUI User need for login
+webguiPass=( "changeme" )       # WebGUI Password need for Login
+ctTemplate=osUbuntu             # Type of Hostsystem - ubuntu, debian, so on
 lxchostname=Heimdall            # Name of the Container
 hddsize=4                       # HDD Size in GB
 cpucores=1                      # Number of CPU cores
@@ -36,7 +43,6 @@ commandsSecond="\
                wget -qO /root/heimdall/docker-compose.yml $containerURL/$lxcName/docker-compose.yml \ 
                cd /root/heimdall && docker-compose up -d --quiet-pull > /dev/null 2>&1 \ 
 "
-containerDescription="WebGUI\n$lng_webadress:      http://$containerIP"
 
 # Commands to be executes in the Host (Proxmox) shell. For example (echo -e "influxdb: InfluxDB\n        port 8089\n        server $nextCTIP" > /etc/pve/status.cfg) to connect your Proxmox
 # Host to influxDB as metric Server.
