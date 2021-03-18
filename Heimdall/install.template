@@ -1,37 +1,38 @@
 #!/bin/bash
 
-ctRootpw=$(createPassword 12)   # Create Rootpassword for Container
 description="Stellt eine Netzwerkweite Startseite zur Verfügung."   # Container Description
-nasneeded=false                 # Container need/can have a NAS
-dvbneeded=false                 # Container need/can have a DVB/TV-Card
-vganeeded=false                 # Container need/can have a VGA-Card
-samba=false                     # Container use Smaba
-webgui=true                     # Container has a WebGUI True ot False
-webguiPort=( "80" )             # WebGUI Port
-webguiProtocol=( "http" )
-webguiUser=( "admin" )          # WebGUI User need for login
-webguiPass=( "changeme" )       # WebGUI Password need for Login
-ctTemplate=osUbuntu             # Type of Hostsystem - ubuntu, debian, so on
-lxchostname=Heimdall            # Name of the Container
-hddsize=4                       # HDD Size in GB
-cpucores=1                      # Number of CPU cores
-memory=256                      # Memorysize in MB
-swap=256                        # SWAP size in MB
-unprivileged=1                  # Privileged/Unprivileged Container, 0=False - 1=True
-features="keyctl=1,nesting=1"                     # force_rw_sys=<1|0>,fuse=<1|0>,keyctl=<1|0>,mknod=<1|0>,mount=<fstype;fstype;...>,nesting=<1|0> in quotation marks
-containerFolder="/root/heimdall/"              # Space separated list of folders ("/root/DOCKER" "/media/movies") - NAS Folders will create automaticly (/mnt/backup and /media)
-containerSoftware="docker.io docker-compose"            # Space separated list of packages to install (curl wget)
-fwPort=( 80 443 )
-fwNetwork=( network pnetwork )
-fwProtocol=( tcp tcp )
-fwDescription=( HTTP HTTPS )
-functions=""                    # Functions in this template that are executed after a container restart
+inst_samba=false                                      # Install Samba in Container >> true or false
+sambaUser=( "User1" "User2" )                         # Users for whom a Samba share is to be created. Login data can be found in the container description in the Proxmox WebGUI.Passwords can be changed in the container shell with the command >> smbpasswd -a USERNAME <<.
+fncneeded=false                                       # Loads the file "functions.template" from the installation directory in web and includes it
+nasneeded=false                                       # Bind NAS if exist to Container >> true or false
+dvbneeded=false                                       # Bind DVB-TV-Card if exist to Container >> true or false
+vganeeded=false                                       # Bind Graphic Card if exist to Container >> true or false
+webgui=true                                           # Write the WebGUI-Block to Container Description in Proxmox WebGUI >> true or false
+webguiName=( "WebGUI" )                               # Headline/Name of WebGUI-Block - example ( "WebGUI (Admin)" "WebGUI (User)" ) >> Write each port in quotes >> IMPORTANT! If not necessary only two quotation marks
+webguiPort=( "80" )                                   # WebGUI-Port(s) - example ( "80" "443" ) >> Write each port in quotes >> IMPORTANT! If not necessary only two quotation marks
+webguiProtocol=( "http" )                             # WebGUI-Protocol - example ( "http" "https" ) >> Write each protocol in quotes >> IMPORTANT! If not necessary only two quotation marks
+webguiUser=( "admin" )                                # WebGUI-User need for login - example ( "admin" "user" ) >> Write each username in quotes >> IMPORTANT! If not necessary only two quotation marks
+webguiPass=( "changeme" )                             # WebGUI-Password need for Login - example ( "SuperSecret" "Secret123" ) >> Write each password in quotes >> IMPORTANT! If not necessary only two quotation marks
+ctTemplate=osUbuntu20_04                              # Name of Containertemplate - example osUbuntu20_04, osDebian9 >> see docu on docu.shiot.de
+lxchostname=Heimdall                                  # Hostname from container - this must be unique, must start with a letter and may contain only numbers, hyphens, upper and lower case letters
+hddsize=4                                             # HDD Size in GB
+cpucores=1                                            # Number of used CPU cores
+memory=256                                            # Memorysize in MB (RAM)
+swap=256                                              # SWAP size in MB (SWAP)
+unprivileged=1                                        # Privileged/Unprivileged Container, 0=False - 1=True
+features="keyctl=1,nesting=1"                         # force_rw_sys=<1|0>,fuse=<1|0>,keyctl=<1|0>,mknod=<1|0>,mount=<fstype;fstype;...>,nesting=<1|0> in quotation marks
+containerFolder=( "/root/heimdall/" )                 # These directories are created in the file system before the commandsFirst variable commands are executed. If a NAS is bound into the container, this has already taken place. >> Write each Folder in quotes
+containerSoftware=( "docker.io" "docker-compose" )    # Software packages that need to be installed - process starts after "commandsFirst" Variable >> Write each package in quotes
+fwPort=( "80" "443" )                                 # Ports to be released in the container firewall >> Write each package in quotes
+fwNetwork=( "network" "pnetwork" )                    # Network groups from which these ports can be accessed. Leave empty for all networks. Group "network" is for the subnet where the proxmox server is installed. Group "pnetwork" is for all private networks (10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16). IMPORTANT: "pnetwork" must be specified if VPN access is allowed. >> Write each Folder in quotes >> IMPORTANT! If not necessary only two quotation marks
+fwProtocol=( "tcp" "tcp" )                            # Protocol for port sharing - example ( "tcp" "udp" ) >> Write each port in quotes >> IMPORTANT! If not necessary only two quotation marks
+fwDescription=( "HTTP" "HTTPS" )                      # Description for port sharing - example ( "HTTPS" "used for SSH" ) >> Write each port in quotes >> IMPORTANT! If not necessary only two quotation marks
 
 # Commands to be executed in the container's shell before the actual software is installed. For example, generating a repository
 # list (echo \"deb https://download.example.com/repo/ubuntu focal main\" | tee /etc/apt/sources.list.d/example.list) or adding a
-# PPA, for example (apt-add-repository -y ppa:example/example). or download a Docker-Compose configuration file (wget -qO - /root/docker/file.conf https://example.domain.com/file.conf).
-# Finish every Command line with space Backslash.
-# If you install a SQL database and need to do a SQL secure, this can be done with the command/call to the function "lxcSQLSecure".
+# PPA, for example (apt-add-repository -y ppa:example/example) or download a Docker-Compose configuration file (wget -qO - /root/docker/file.conf https://example.domain.com/file.conf).
+# Finish every Command line with space Backslash space.
+# If you install a SQL database and need to do a SQL secure, this can be done with the command/call to the function "lxc_SQLSecure".
 commandsFirst=""
 
 # Commands to be executed in the container's shell before the actual software is installed. For example, generating a repository
@@ -40,10 +41,10 @@ commandsFirst=""
 # Finish every Command line with space Backslash.
 commandsSecond="\ 
                systemctl start docker && systemctl enable docker > /dev/null 2>&1 \ 
-               wget -qO /root/heimdall/docker-compose.yml $containerURL/$lxcName/docker-compose.yml \ 
+               wget -qO /root/heimdall/docker-compose.yml $containerURL/$lxchostname/docker-compose.yml \ 
                cd /root/heimdall && docker-compose up -d --quiet-pull > /dev/null 2>&1 \ 
 "
 
-# Commands to be executes in the Host (Proxmox) shell. For example (echo -e "influxdb: InfluxDB\n        port 8089\n        server $nextCTIP" > /etc/pve/status.cfg) to connect your Proxmox
-# Host to influxDB as metric Server.
+# Commands to be executed in the host (proxmox) shell. For example (echo -e "influxdb: InfluxDB\n        port 8089\n        server ${ctIP}" > /etc/pve/status.cfg) to connect your Proxmox
+# host to influxDB as a metric server, or calling functions loaded from the "functions.template" file.
 pveCommands=""
