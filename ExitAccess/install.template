@@ -1,89 +1,51 @@
 #!/bin/bash
 
-ctRootpw=$(createPassword 12)   # Create Rootpassword for Container
-nasneeded=false                  # Container need/can have a NAS
-dvbneeded=false                 # Container need/can have a DVB/TV-Card
-vganeeded=false                 # Container need/can have a VGA-Card
-ctTemplate=osUbuntu                # Type of Hostsystem - ubuntu, debian, so on
-lxchostname=ExitAccess            # Name of the Container
-hddsize=4                       # HDD Size in GB
-cpucores=1                      # Number of CPU cores
-memory=512                      # Memorysize in MB
-swap=512                        # SWAP size in MB
-unprivileged=1                  # Privileged/Unprivileged Container, 0=False - 1=True
-features=""                     # force_rw_sys=<1|0>,fuse=<1|0>,keyctl=<1|0>,mknod=<1|0>,mount=<fstype;fstype;...>,nesting=<1|0> in quotation marks
-containerFolder="/etc/pihole/ /etc/pivpn/openvpn/"              # Space separated list of folders ("/root/DOCKER" "/media/movies") - NAS Folders will create automaticly (/mnt/backup and /media)
-containerSoftware="samba samba-common-bin"            # Space separated list of packages to install (curl wget)
-fwPort=( 445 80 443 53 67 4711 )
-fwNetwork=( network network pnetwork pnetwork network network )
-fwProtocol=( tcp tcp tcp tcp udp tcp )
-fwDescription=( samba piHole piHole piHole piHole VPN )
-functions="addVPNUser"                    # Functions in this template that are executed after a container restart
-
-function addVPNUser() {
-  pw=$(createPassword 12)
-  vpnuser=$(whiptail --inputbox --ok-button "$lng_ok" --cancel-button "$lng_cancel" --backtitle "SmartHome-IoT.net - piVPN" --title "$add_vpn_user_title" "$pivpn_info" 20 70 MaxNotebook 3>&1 1>&2 2>&3)
-  exitstatus=$?
-  if [[ "$exitstatus" = 1 ]]; then return 1; fi
-  whiptail --msgbox --backtitle "SmartHome-IoT.net - piVPN" --title "$add_vpn_user_title" "$add_vpn_user_info \n$lng_user ${vpnuser} \n$lng_password ${pw} \n\n$add_vpn_user_info1" 20 70
-  pct exec $ctID -- bash -ci "pivpn add -n ${vpnuser} -p ${pw} -d 1800"
-  whiptail --yesno --backtitle "SmartHome-IoT.net - piVPN" --title "$add_vpn_user_title" "$add_vpn_user_ask" 20 70
-  yesno=$?
-  if [[ $yesno == 0 ]]; then
-    addVPNUser
-  fi
-  pct exec $ctID -- bash -ci "chmod -R 775 /home/pivpn/ovpns"
-  return 0
-}
-
-# Commands to be executed in the container's shell before the actual software is installed. For example, generating a repository
-# list (echo \"deb https://download.example.com/repo/ubuntu focal main\" | tee /etc/apt/sources.list.d/example.list) or adding a
-# PPA, for example (apt-add-repository -y ppa:example/example). or download a Docker-Compose configuration file (wget -qO - /root/docker/file.conf https://example.domain.com/file.conf).
-# Finish every Command line with space Backslash.
-# If you install a SQL database and need to do a SQL secure, this can be done with the command/call to the function "lxcSQLSecure".
-commandsFirst="\
-              wget -qO /etc/pihole/setupVars.conf $containerURL/$lxcName/piHole_setupVars.conf \ 
-              sed -i 's#IPADRESSTOCHANGE#$ctIP#g' /etc/pihole/setupVars.conf \ 
-              sed -i 's#CIDRTOCHANGE#$cidr#g' /etc/pihole/setupVars.conf \ 
+description="${ct_description}"
+fncneeded=true
+nasneeded=false
+dvbneeded=false
+vganeeded=false
+inst_samba=true
+sambaUser=( "pivpn" )
+webgui=true
+webguiName=( "WebGUI (piHole)" )
+webguiProtocol=( "http" )
+webguiPort=( "" )
+webguiPath=( "/admin")
+webguiUser=( "" )
+webguiPass=( "changeme" )
+ctTemplate=osUbuntu20_04
+lxchostname=ExitAccess
+hddsize=4
+cpucores=1
+memory=512
+swap=512
+unprivileged=1
+features=""
+containerFolder=( "/etc/pihole/" "/etc/pivpn/openvpn/" )
+containerSoftware=( "" )
+fwPort=( "53" "53" "67" "547" "80" "4711" "1194" "51820" )
+fwNetwork=( "pnetwork" "pnetwork" "pnetwork" "pnetwork" "network" "network" "" "" )
+fwProtocol=( "tcp" "udp" "udp" "udp" "tcp" "udp" "udp" )
+fwDescription=( "piHole-FTL (DNS)" "piHole-FTL (DNS)" "piHole-FTL (DHCPv4)" "piHole-FTL (DHCPv6)" "piHole (HTTP)" "piHole-FTL (API)" "piVPN (openVPN)" "piVPN (wireguard)" )
+commandsFirst="\ 
+              wget -qO /etc/pihole/setupVars.conf $containerURL/$lxchostname/piHole_setupVars.conf \ 
+              sed -i 's#IPADRESSTOCHANGE#'"$ctIP"'#g' /etc/pihole/setupVars.conf \ 
+              sed -i 's#CIDRTOCHANGE#'"$cidr"'#g' /etc/pihole/setupVars.conf \ 
               curl -sSL https://install.pi-hole.net | bash /dev/stdin --unattended > /dev/null 2>&1 \ 
               /usr/local/bin/pihole -a -p changeme > /dev/null 2>&1 \ 
-              curl -sSL $containerURL/$lxcName/updateAdlistPihole.sh | bash \ 
-              wget -qO /root/updateAdlistPihole.sh $containerURL/$lxcName/updateAdlistPihole.sh && chmod +x /root/updateAdlistPihole.sh \ 
+              curl -sSL $containerURL/$lxchostname/updateAdlistPihole.sh | bash \ 
+              wget -qO /root/updateAdlistPihole.sh $containerURL/$lxchostname/updateAdlistPihole.sh && chmod +x /root/updateAdlistPihole.sh \ 
               crontab -l | { cat; echo \"0 03 1,14 * *   root    /root/updateAdlistPihole.sh\"; } | crontab -
-              useradd -m -p $ctRootpw pivpn \ 
-              mkdir -p /home/pivpn/openvpns/ \ 
-              chown -R pivpn:pivpn /home/pivpn/openvpns/ \ 
-              wget -qO /etc/pivpn/openvpn/setupVars.conf $containerURL/$lxcName/piVPN_setupVars.conf \ 
-              lxcfqdn=$(whiptail --inputbox --nocancel --backtitle "SmartHome-IoT.net - piVPN" --title "Hostname - $pivpn_title" "Wie lautet der Hostname (FQDN) oder die öffentliche IP zu diesem Container?" ${r} ${c} $publicIP 3>&1 1>&2 2>&3) \ 
-              sed -i 's#HOSTTOCHANGE#$lxcfqdn#g' /etc/pivpn/openvpn/setupVars.conf \ 
+              wget -qO /etc/pivpn/openvpn/setupVars.conf $containerURL/$lxchostname/piVPN_setupVars.conf \ 
+              sed -i 's#VPNUSERTOCHANGE#'"$sambaUser"'#g' /etc/pihole/setupVars.conf \ 
+              lxcfqdn=$(whiptail --inputbox --nocancel --backtitle "SmartHome-IoT.net - piVPN" --title "Hostname - $pivpn_title" "$pivpn_text" ${r} ${c} $publicIP 3>&1 1>&2 2>&3) \ 
+              sed -i 's#HOSTTOCHANGE#'"$lxcfqdn"'#g' /etc/pivpn/openvpn/setupVars.conf \ 
               curl -sSL https://install.pivpn.io | bash /dev/stdin --unattended /etc/pivpn/openvpn/setupVars.conf > /dev/null 2>&1 \ 
               export PATH=\"/usr/local/bin:$PATH\" \ 
+              echo \"interface=tun0\" > /etc/dnsmasq.d/02-pivpn.conf \ 
+              /etc/init.d/openvpn restart \ 
+              /etc/init.d/pihole-FTL restart \ 
 "
-
-# Commands to be executed in the container's shell before the actual software is installed. For example, generating a repository
-# list (echo \"deb https://download.example.com/repo/ubuntu focal main\" | tee /etc/apt/sources.list.d/example.list) or adding a
-# PPA, for example (apt-add-repository -y ppa:example/example). or download a Docker-Compose configuration file (wget -qO - /root/docker/file.conf https://example.domain.com/file.conf).
-# Finish every Command line with space Backslash.
-commandsSecond="\ 
-               rm /etc/samba/smb.conf \ 
-               wget -qO /etc/samba/smb.conf $containerURL/$lxcName/smb.conf \ 
-               chmod -R 775 /home/pivpn/ovpns \ 
-               systemctl restart smbd \ 
-"
-containerDescription=$(echo -e "\ 
-WebGUI (piHole)
-$lng_webadress:      http://$ctIP/admin
-$lng_user:
-$lng_password:     changeme
-
-$ct_description_head
-Windows:    \\\\$ctIP
-")
-
-# Commands to be executes in the Host (Proxmox) shell. For example (echo -e "influxdb: InfluxDB\n        port 8089\n        server $nextCTIP" > /etc/pve/status.cfg) to connect your Proxmox
-# Host to influxDB as metric Server.
-#pveCommands="\ 
-#              Command1 \ 
-#              Command2 \ 
-#              Command3 \ 
-#"
+commandsSecond=""
+pveCommands="addVPNUser"
