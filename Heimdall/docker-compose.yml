@@ -6,10 +6,11 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/Berlin
+      - TZ=TIMEZONETOCHANGE
     volumes:
       - ./heimdall:/config
     ports:
       - 80:80
       - 443:443
     restart: unless-stopped
+    
