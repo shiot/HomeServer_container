@@ -1,0 +1,29 @@
+#!/bin/bash
+#
+# function test() {
+#   >> SOME COMMANDS <<
+# }
+#
+# function example() {
+#   >> SOME OTHER COMMANDS <<
+# }
+#
+#
+# If a command is to be executed on the container, make sure that the command is executed in the container's shell.
+# You can do this with the command >> pct exec $ctID -- bash -c "SOME COMMANDS" <<
+
+function addVPNUser() {
+  pw=$(createPassword 12)
+  vpnuser=$(whiptail --inputbox --ok-button "$lng_ok" --cancel-button "$lng_cancel" --backtitle "© 2021 - SmartHome-IoT.net - piVPN" --title "$add_vpn_user_title" "$pivpn_info" 20 70 "${lng_user}Notebook" 3>&1 1>&2 2>&3)
+  exitstatus=$?
+  if [[ "$exitstatus" = 1 ]]; then return 1; fi
+  whiptail --msgbox --backtitle "© 2021 - SmartHome-IoT.net - piVPN" --title "$add_vpn_user_title" "$add_vpn_user_info \n$lng_user ${vpnuser} \n$lng_password ${pw} \n\n$add_vpn_user_info1" 20 70
+  pct exec $ctID -- bash -ci "pivpn add -n ${vpnuser} -p ${pw} -d 1800"
+  whiptail --yesno --backtitle "© 2021 - SmartHome-IoT.net - piVPN" --title "$add_vpn_user_title" "$add_vpn_user_ask" 20 70
+  yesno=$?
+  if [[ $yesno == 0 ]]; then
+    addVPNUser
+  fi
+  pct exec $ctID -- bash -ci "chmod -R 775 /home/pivpn/ovpns"
+  return 0
+}
