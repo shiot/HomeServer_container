@@ -1,0 +1,39 @@
+#!/bin/bash
+
+description="${ct_description}"
+fncneeded=false
+nasneeded=true
+dvbneeded=false
+vganeeded=true
+inst_samba=false
+sambaUser=( "" )
+webgui=true
+webguiName=( "WebGUI" )
+webguiPort=( "32400" "8920" )
+webguiPath=( "/web" )
+webguiProtocol=( "http" )
+webguiUser=( "" )
+webguiPass=( "" )
+ctTemplate=osUbuntu20_04
+lxchostname=Plex
+hddsize=8
+cpucores=1
+memory=2048
+swap=2048
+unprivileged=0
+features="nesting=1,mount=nfs;cifs"
+containerFolder=( "/media/Movies/" "/media/Series/" "/media/Photos/" )
+containerSoftware=( "plexmediaserver" )
+fwPort=( "32400" "1900" "5353" "8324" "32410" "32412:32414" "32469" )
+fwNetwork=( "" "network" "network" "network" "network" "network" "network" )
+fwProtocol=( "tcp" "udp" "udp" "tcp" "udp" "udp" "tcp" )
+fwDescription=( "access to the Plex Media Server" "access to the Plex DLNA Server" "older Bonjour/Avahi network discovery" "controlling Plex for Roku via Plex Companion" "controlling Plex for Roku via Plex Companion" "controlling Plex for Roku via Plex Companion" "access to the Plex DLNA Server" )
+commandsFirst="\ 
+              wget -q https://downloads.plex.tv/plex-keys/PlexSign.key -O - | apt-key add - > /dev/null 2>&1 \ 
+              echo \"deb https://downloads.plex.tv/repo/deb/ public main\" | tee /etc/apt/sources.list.d/plexmediaserver.list > /dev/null 2>&1 \ 
+"
+commandsSecond="\ 
+              systemctl start plexmediaserver && systemctl enable plexmediaserver > /dev/null 2>&1 \ 
+              sed -i 's+# deb+deb+' /etc/apt/sources.list.d/plexmediaserver.list \ 
+"
+pveCommands=""
