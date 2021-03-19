@@ -1,59 +1,37 @@
 #!/bin/bash
 
-ctRootpw=$(createPassword 12)   # Create Rootpassword for Container
-nasneeded=false                 # Container need/can have a NAS
-dvbneeded=false                 # Container need/can have a DVB/TV-Card
-vganeeded=false                 # Container need/can have a VGA-Card
-ctTemplate=osUbuntu                # Type of Hostsystem - ubuntu, debian, so on
-lxchostname=ReverseProxy            # Name of the Container
-hddsize=4                       # HDD Size in GB
-cpucores=1                      # Number of CPU cores
-memory=512                      # Memorysize in MB
-swap=512                        # SWAP size in MB
-unprivileged=1                  # Privileged/Unprivileged Container, 0=False - 1=True
-features="keyctl=1,nesting=1"                     # force_rw_sys=<1|0>,fuse=<1|0>,keyctl=<1|0>,mknod=<1|0>,mount=<fstype;fstype;...>,nesting=<1|0> in quotation marks
-containerFolder="/root/npm/"              # Space separated list of folders ("/root/DOCKER" "/media/movies") - NAS Folders will create automaticly (/mnt/backup and /media)
-containerSoftware="docker.io docker-compose"            # Space separated list of packages to install (curl wget)
-fwPort=( 80 443 81 )
-fwNetwork=( network pnetwork network )
-fwProtocol=( tcp tcp tcp )
-fwDescription=( HTTP HTTPS Adminpanel )
-functions=""                    # Functions in this template that are executed after a container restart
-
-# Commands to be executed in the container's shell before the actual software is installed. For example, generating a repository
-# list (echo \"deb https://download.example.com/repo/ubuntu focal main\" | tee /etc/apt/sources.list.d/example.list) or adding a
-# PPA, for example (apt-add-repository -y ppa:example/example). or download a Docker-Compose configuration file (wget -qO - /root/docker/file.conf https://example.domain.com/file.conf).
-# Finish every Command line with space Backslash.
-# If you install a SQL database and need to do a SQL secure, this can be done with the command/call to the function "lxcSQLSecure".
-#commandsFirst="\
-#              Command1 \ 
-#              Command2 \ 
-#              Command3 \ 
-#"
-
-# Commands to be executed in the container's shell before the actual software is installed. For example, generating a repository
-# list (echo \"deb https://download.example.com/repo/ubuntu focal main\" | tee /etc/apt/sources.list.d/example.list) or adding a
-# PPA, for example (apt-add-repository -y ppa:example/example). or download a Docker-Compose configuration file (wget -qO - /root/docker/file.conf https://example.domain.com/file.conf).
-# Finish every Command line with space Backslash.
+description="${ct_description}"
+inst_samba=false
+sambaUser=( "" )
+fncneeded=false
+nasneeded=false
+dvbneeded=false
+vganeeded=false
+webgui=true
+webguiName=( "WebGUI" )
+webguiPort=( "81" )
+webguiProtocol=( "http" )
+webguiUser=( "admin@example.com" )
+webguiPass=( "changeme" )
+ctTemplate=osUbuntu20_04
+lxchostname=ReverseProxy
+hddsize=4
+cpucores=1
+memory=512
+swap=512
+unprivileged=1
+features="keyctl=1,nesting=1"
+containerFolder=( "/root/npm/" )
+containerSoftware=( "docker.io" "docker-compose" )
+fwPort=( "80" "81" "443" )
+fwNetwork=( "network" "network" "" )
+fwProtocol=( "tcp" "tcp" "tcp" )
+fwDescription=( "NginxProxyManager (HTTP)" "NginxProxyManager (Admin)" "NginxProxyManager (HTTPS)" )
+commandsFirst=""
 commandsSecond="\ 
                systemctl start docker && systemctl enable docker > /dev/null 2>&1 \ 
-               wget -qO /root/npm/docker-compose.yml $containerURL/$lxcName/docker-compose.yml \ 
-               sed -i 's+ROOTPASSWORDTOCHANGE+$ctRootpw+g' /root/npm/docker-compose.yml \ 
-               wget -qO /root/npm/config.json $containerURL/$lxcName/config.json \ 
-               sed -i 's+ROOTPASSWORDTOCHANGE+$ctRootpw+g' /root/npm/config.json \ 
+               wget -qO /root/npm/docker-compose.yml $containerURL/$lxchostname/docker-compose.yml \ 
+               sed -i 's#ROOTPASSWORDTOCHANGE#'"$ctRootpw"'#g' /root/npm/docker-compose.yml \ 
                cd /root/npm && docker-compose up -d --quiet-pull > /dev/null 2>&1 \ 
 "
-containerDescription=$(echo -e "\ 
-WebGUI
-$lng_webadress:      http://$ctIP:81
-$lng_user:     admin@example.com
-$lng_password:     changeme
-")
-
-# Commands to be executes in the Host (Proxmox) shell. For example (echo -e "influxdb: InfluxDB\n        port 8089\n        server $nextCTIP" > /etc/pve/status.cfg) to connect your Proxmox
-# Host to influxDB as metric Server.
-#pveCommands="\ 
-#              Command1 \ 
-#              Command2 \ 
-#              Command3 \ 
-#"
+pveCommands=""
