@@ -1,5 +1,7 @@
 #!/bin/bash
 #
-# variable="irgendein Text"
-# other_variable="irgendein anderer Text"
+# variable="some Text"
+# other_variable="some other Text"
 #
+
+ct_description="HIER EINE BESCHREIBUNG"
