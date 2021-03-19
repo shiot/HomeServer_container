@@ -10,6 +10,7 @@ vganeeded=false
 webgui=true
 webguiName=( "WebGUI (Grafana)" )
 webguiPort=( "3000" )
+webguiPath=( "" )
 webguiProtocol=( "http" )
 webguiUser=( "admin" )
 webguiPass=( "changeme" )
