@@ -1,61 +1,35 @@
 #!/bin/bash
 
-ctRootpw=$(createPassword 12)   # Create Rootpassword for Container
-nasneeded=true                  # Container need/can have a NAS
-dvbneeded=false                 # Container need/can have a DVB/TV-Card
-vganeeded=false                 # Container need/can have a VGA-Card
-ctTemplate=osDebian9                # Type of Hostsystem - ubuntu, debian, so on
-lxchostname=3cx            # Name of the Container
-hddsize=32                       # HDD Size in GB
-cpucores=1                      # Number of CPU cores
-memory=1024                      # Memorysize in MB
-swap=1024                        # SWAP size in MB
-unprivileged=0                  # Privileged/Unprivileged Container, 0=False - 1=True
-features="mount=cifs;nfs"                     # force_rw_sys=<1|0>,fuse=<1|0>,keyctl=<1|0>,mknod=<1|0>,mount=<fstype;fstype;...>,nesting=<1|0> in quotation marks
-containerFolder=""              # Space separated list of folders ("/root/DOCKER" "/media/movies") - NAS Folders will create automaticly (/mnt/backup and /media)
-containerSoftware="iperf libicu57 dphys-swapfile 3cxpbx"            # Space separated list of packages to install (curl wget)
-fwPort=( 5015 5001 5062 5062 5063 5090 5090 "9000:10999" )
-fwNetwork=( network pnetwork "" "" "" "" "" "" )
-fwProtocol=( tcp tcp udp tcp tcp udp tcp udp )
-fwDescription=( $fw_description1 $fw_description2 $fw_description3 $fw_description3 $fw_description4 $fw_description5 $fw_description5 $fw_description6 )
-functions=""                    # Functions in this template that are executed after a container restart
-
-# Commands to be executed in the container's shell before the actual software is installed. For example, generating a repository
-# list (echo \"deb https://download.example.com/repo/ubuntu focal main\" | tee /etc/apt/sources.list.d/example.list) or adding a
-# PPA, for example (apt-add-repository -y ppa:example/example). or download a Docker-Compose configuration file (wget -qO - /root/docker/file.conf https://example.domain.com/file.conf).
-# Finish every Command line with space Backslash.
-# If you install a SQL database and need to do a SQL secure, this can be done with the command/call to the function "lxcSQLSecure".
+description="${ct_description}"
+fncneeded=false
+nasneeded=false
+dvbneeded=false
+vganeeded=false
+inst_samba=false
+sambaUser=( "" )
+webgui=true
+webguiName=( "WebGUI (Admin)" "WebGUI (${lng_user})" "WebGUI (${ct_description3})" )
+webguiPort=( "5001" "5001/webclient" "5015?v=2" )
+webguiProtocol=( "http" "http" "http" )
+webguiUser=( "" "${ct_description1}" "" )
+webguiPass=( "" "${ct_description2}" "" )
+ctTemplate=osDebian9
+lxchostname=3cx
+hddsize=32
+cpucores=1
+memory=1024
+swap=1024
+unprivileged=0
+features="mount=cifs;nfs"
+containerFolder=( "" )
+containerSoftware=( "iperf" "libicu57" "libicu57" "dphys-swapfile" "3cxpbx" )
+fwPort=( "5015" "5001" "5062" "5062" "5063" "5090" "5090" "9000:10999" )
+fwNetwork=( "network" "pnetwork" "" "" "" "" "" "" )
+fwProtocol=( "tcp" "tcp" "udp" "tcp" "tcp" "udp" "tcp" "udp" )
+fwDescription=( "${fw_description1}" "${fw_description2}" "${fw_description3}" "${fw_description3}" "${fw_description4}" "${fw_description5}" "${fw_description5}" "${fw_description6}" )
 commandsFirst="\ 
               wget -qO - http://downloads-global.3cx.com/downloads/3cxpbx/public.key | apt-key add - > /dev/null 2>&1 \ 
               echo \"deb http://downloads-global.3cx.com/downloads/debian stretch main\" | tee /etc/apt/sources.list.d/3cxpbx.list > /dev/null 2>&1 \ 
 "
-
-# Commands to be executed in the container's shell before the actual software is installed. For example, generating a repository
-# list (echo \"deb https://download.example.com/repo/ubuntu focal main\" | tee /etc/apt/sources.list.d/example.list) or adding a
-# PPA, for example (apt-add-repository -y ppa:example/example). or download a Docker-Compose configuration file (wget -qO - /root/docker/file.conf https://example.domain.com/file.conf).
-# Finish every Command line with space Backslash.
-#commandsSecond="\ 
-#               Command1 \ 
-#               Command2 \ 
-#               Command3 \ 
-#"
-containerDescription=$(echo -e "\ 
-WebGUI (Administration)
-$lng_webadress:      http://$ctIP:5001
-$lng_user:     Administrator
-$lng_password:     changeme
-WebGUI (User)
-$lng_webadress:      http://$ctIP:5001/webclient
-$lng_user:     $ct_description1
-$lng_password:     $ct_description2
-WebGUI ($ct_description3)
-$lng_webadress:      http://$ctIP:5015?v=2
-")
-
-# Commands to be executes in the Host (Proxmox) shell. For example (echo -e "influxdb: InfluxDB\n        port 8089\n        server $nextCTIP" > /etc/pve/status.cfg) to connect your Proxmox
-# Host to influxDB as metric Server.
-#pveCommands="\ 
-#              Command1 \ 
-#              Command2 \ 
-#              Command3 \ 
-#"
+commandsSecond=""
+pveCommands=""
