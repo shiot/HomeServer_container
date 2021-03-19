@@ -1,0 +1,7 @@
+#!/bin/bash
+#
+# variable="irgendein Text"
+# other_variable="irgendein anderer Text"
+#
+
+ct_description="influxDB und Grafana"
