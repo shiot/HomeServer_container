@@ -1,0 +1,7 @@
+#!/bin/bash
+#
+# variable="some Text"
+# other_variable="some other Text"
+#
+
+ct_description="Application Dashboard"
