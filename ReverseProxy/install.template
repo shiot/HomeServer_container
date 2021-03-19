@@ -10,6 +10,7 @@ vganeeded=false
 webgui=true
 webguiName=( "WebGUI" )
 webguiPort=( "81" )
+webguiPath=( "" )
 webguiProtocol=( "http" )
 webguiUser=( "admin@example.com" )
 webguiPass=( "changeme" )
