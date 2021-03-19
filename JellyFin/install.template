@@ -10,6 +10,7 @@ sambaUser=( "" )
 webgui=true
 webguiName=( "WebGUI" "WebGUI (HTTPS)" )
 webguiPort=( "8096" "8920" )    
+webguiPath=( "" )
 webguiProtocol=( "http" "https" )
 webguiUser=( "" )
 webguiPass=( "" )
