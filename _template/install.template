@@ -10,6 +10,7 @@ sambaUser=( "User1" "User2" )                         # Users for whom a Samba s
 webgui=true                                           # Write the WebGUI-Block to Container Description in Proxmox WebGUI >> true or false
 webguiName=( "WebGUI" )                               # Headline/Name of WebGUI-Block - example ( "WebGUI (Admin)" "WebGUI (User)" ) >> Write each port in quotes >> IMPORTANT! If not necessary only two quotation marks
 webguiPort=( "80" )                                   # WebGUI-Port(s) - example ( "80" "443" ) >> Write each port in quotes >> IMPORTANT! If not necessary only two quotation marks
+webguiPath=( "/admin" )                                # WebGUI-Path - example ( "/admin" ) >> Write each port in quotes >> IMPORTANT! If not necessary only two quotation marks
 webguiProtocol=( "http" )                             # WebGUI-Protocol - example ( "http" "https" ) >> Write each protocol in quotes >> IMPORTANT! If not necessary only two quotation marks
 webguiUser=( "admin" )                                # WebGUI-User need for login - example ( "admin" "user" ) >> Write each username in quotes >> IMPORTANT! If not necessary only two quotation marks
 webguiPass=( "changeme" )                             # WebGUI-Password need for Login - example ( "SuperSecret" "Secret123" ) >> Write each password in quotes >> IMPORTANT! If not necessary only two quotation marks
