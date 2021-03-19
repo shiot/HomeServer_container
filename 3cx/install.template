@@ -10,6 +10,7 @@ sambaUser=( "" )
 webgui=true
 webguiName=( "WebGUI (Admin)" "WebGUI (${lng_user})" "WebGUI (${ct_description3})" )
 webguiPort=( "5001" "5001/webclient" "5015?v=2" )
+webguiPath=( "" "" "" )
 webguiProtocol=( "http" "http" "http" )
 webguiUser=( "" "${ct_description1}" "" )
 webguiPass=( "" "${ct_description2}" "" )
