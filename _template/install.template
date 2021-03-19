@@ -1,6 +1,6 @@
 #!/bin/bash
 
-description=">> Container description with 50 to 55 characters <<"   # Short container description, it looks better if not more than 50 to 55 characters are used.
+description="${ct_description}"                       # Short container description, it looks better if not more than 50 to 55 characters are used.
 fncneeded=false                                       # Loads the file "functions.template" from the installation directory in web and includes it
 nasneeded=false                                       # Bind NAS if exist to Container >> true or false
 dvbneeded=false                                       # Bind DVB-TV-Card if exist to Container >> true or false
