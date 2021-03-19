@@ -5,7 +5,7 @@ lxclist=( \
   "iDBGrafana" "influxDB mit Grafana" on \
 #  "ioBroker" "Steuere dein SmartHome" off \
   "3cx" "Telefonanlage der Enterpriseklasse" off \
-#  "JellyFin" "Medienserver" off \
+  "JellyFin" "Medienserver" off \
 #  "emby" "Medienserver" off \
 #  "Plex" "Medienserver" off \
 #  "TVHeadend" "Live-TV-Server mit Videorecorder" off \
