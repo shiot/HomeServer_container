@@ -1,5 +1,6 @@
 #!/bin/bash
 
+ct_description="Netzwerkweiter AdBlocker und VPN-Server"
 pivpn_info="Um Verbindungsprobleme zu vermeiden, sollte pro Endgerät das sich\nverbindet ein eigener Benutzer erstellt werden.\n\nWelchen Namen soll der VPN-Benutzer erhalten?"
 pivpn_title="externer Zugriff"
 pivpn_text="Wie lautet der Hostname (FQDN) oder die öffentliche IP zu diesem Container?"
