@@ -1,11 +1,16 @@
 #!/bin/bash
+#
+# variable="irgendein Text"
+# other_variable="irgendein anderer Text"
+#
 
+ct_description="3cx IP-Telefonanlage"
+ct_description1="Nebenstellennummer"
+ct_description2="wird per E-Mail verschickt"
+ct_description3="Ersteinrichtung"
 fw_description1="Weboberfläche zur Ersteinrichtung"
 fw_description2="Weboberfläche"
 fw_description3="SIP"
 fw_description4="secure SIP"
 fw_description5="Tunnel"
 fw_description6="RTP"
-ct_description1="Nebenstellennummer"
-ct_description2="wird per E-Mail verschickt"
-ct_description3="Ersteinrichtung"
