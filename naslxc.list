@@ -1,3 +1,5 @@
+#!/bin/bash
+
 lxclist=( \
   "Heimdall" "Dashboard Startseite" on \
   "ReverseProxy" "NGINX Proxy Manager" on \
@@ -7,7 +9,7 @@ lxclist=( \
   "3cx" "Telefonanlage der Enterpriseklasse" off \
   "JellyFin" "Medienserver" off \
 #  "emby" "Medienserver" off \
-#  "Plex" "Medienserver" off \
+  "Plex" "Medienserver" off \
 #  "TVHeadend" "Live-TV-Server mit Videorecorder" off \
 #  "nextCloud" "Ein eigene Cloudserver" off \
 #  "ecoDMS" "Dokumentenmanagementsystem" off \
