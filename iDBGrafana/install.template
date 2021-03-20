@@ -22,6 +22,7 @@ memory=512
 swap=512
 unprivileged=1
 features=""
+apparmorProfile=""
 containerFolder=( "/var/lib/grafana/dashboards/" )
 containerSoftware=( "influxdb" "grafana" )
 fwPort=( "8086" "8088" "8089" "3000" )
