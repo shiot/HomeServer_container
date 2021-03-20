@@ -1,17 +1,18 @@
 #!/bin/bash
 
 lxclist=( \
-  "Heimdall" "Dashboard Startseite" on \
+  "Heimdall" "App Dashboard" on \
   "ReverseProxy" "NGINX Proxy Manager" on \
-  "ExitAccess" "piHole mit piVPN" on \
-  "iDBGrafana" "influxDB mit Grafana" on \
+  "ExitAccess" "piHole & piVPN" on \
+  "iDBGrafana" "influxDB & Grafana" on \
 #  "ioBroker" "Steuere dein SmartHome" off \
-  "3cx" "Telefonanlage der Enterpriseklasse" off \
-  "JellyFin" "Medienserver" off \
-  "emby" "Medienserver" off \
-  "Plex" "Medienserver" off \
+  "3cx" "Phone System" off \
+  "JellyFin" "Mediaserver" off \
+  "emby" "Mediaserver" off \
+  "Plex" "Mediaserver" off \
+  "Radarr" "" off \
+  "Sonarr" "" off \
 #  "TVHeadend" "Live-TV-Server mit Videorecorder" off \
 #  "nextCloud" "Ein eigene Cloudserver" off \
 #  "ecoDMS" "Dokumentenmanagementsystem" off \
-#  "Downloadserver" "NUR ZU SCHLUNGSZWECKEN" off \
 )
