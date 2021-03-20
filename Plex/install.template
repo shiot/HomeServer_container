@@ -22,6 +22,7 @@ memory=2048
 swap=2048
 unprivileged=0
 features="nesting=1,mount=nfs;cifs"
+apparmorProfile=""
 containerFolder=( "/media/Movies/" "/media/Series/" "/media/Photos/" )
 containerSoftware=( "plexmediaserver" )
 fwPort=( "32400" "1900" "5353" "8324" "32410" "32412:32414" "32469" )
