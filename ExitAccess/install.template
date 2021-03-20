@@ -22,6 +22,7 @@ memory=512
 swap=512
 unprivileged=1
 features=""
+apparmorProfile=""
 containerFolder=( "/etc/pihole/" "/etc/pivpn/openvpn/" )
 containerSoftware=( "" )
 fwPort=( "53" "53" "67" "547" "80" "4711" "1194" "51820" )
