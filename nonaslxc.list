@@ -5,6 +5,6 @@
   "ReverseProxy" "NGINX Proxy Manager" on \
   "ExitAccess" "piHole & piVPN" on \
   "iDBGrafana" "influxDB & Grafana" on \
-#  ioBroker "Steuere dein SmartHome" off \
+  "ioBroker" "SmartHome - Automate your life" off \
   "3cx" "Phone System " off \
 )
