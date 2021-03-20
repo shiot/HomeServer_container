@@ -22,6 +22,7 @@ memory=1024
 swap=1024
 unprivileged=0
 features="mount=cifs;nfs"
+apparmorProfile=""
 containerFolder=( "" )
 containerSoftware=( "iperf" "libicu57" "libicu57" "dphys-swapfile" "3cxpbx" )
 fwPort=( "5015" "5001" "5062" "5062" "5063" "5090" "5090" "9000:10999" )
