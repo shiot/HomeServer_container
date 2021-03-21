@@ -1,0 +1,34 @@
+#!/bin/bash
+
+description="${ct_description}"
+fncneeded=false
+nasneeded=true
+dvbneeded=false
+vganeeded=false
+inst_samba=false
+sambaUser=( "" )
+webgui=true
+webguiName=( "WebGUI" "WebGUI (vis)" )
+webguiPort=( "8081" "8082" )    
+webguiPath=( "" "/vis/" )
+webguiProtocol=( "http" "http" )
+webguiUser=( "admin" "" )
+webguiPass=( "changeme" "" )
+ctTemplate=osUbuntu20_04
+lxchostname=ioBroker
+hddsize=16
+cpucores=2
+memory=2048
+swap=2048
+unprivileged=1
+features="nesting=1,mount=cifs;nfs"
+apparmorProfile="unconfined"
+containerFolder=( "/mnt/backup/$lxchostname/javascript/" )
+containerSoftware=( "" )
+fwPort=( "80" "443" "22" )
+fwNetwork=( "network" "" "pnetwork" )
+fwProtocol=( "tcp" "tcp" "tcp" )
+fwDescription=( "HTTP" "HTTPS" "SSH" )
+commandsFirst="curl -sLf https://iobroker.net/install.sh | bash - > /dev/null 2>&1"
+commandsSecond=""
+pveCommands="iobinstallVariation"
