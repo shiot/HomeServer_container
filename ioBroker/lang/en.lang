@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+# variable="some Text"
+# other_variable="some other Text"
+#
+
+ct_description="Open source automation platform"
+iob_config_text="How do you want your ioBroker configured?"
+iob_config_choose_text="Reinstall"
+iob_config_choose_text1="Restore backup"
+iob_config_restore_mthod="Do you want to restore ioBroker with backitup?"
+iob_config_vis_license="A license is needed for ioBroker visualization.\nThe license is free for private use.\nYou will get a license key on \"iobroker.net\" after registration."
