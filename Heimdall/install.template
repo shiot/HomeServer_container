@@ -30,10 +30,10 @@ fwNetwork=( "network" "" )
 fwProtocol=( "tcp" "tcp" )
 fwDescription=( "HTTP" "HTTPS" )
 commandsFirst=""
-commandsSecond="\ 
-               systemctl start docker && systemctl enable docker > /dev/null 2>&1 \ 
-               wget -qO /root/heimdall/docker-compose.yml $containerURL/$lxchostname/docker-compose.yml \ 
-               sed -i 's#TIMEZONETOCHANGE#'"$timezone"'#' /root/heimdall/docker-compose.yml
-               cd /root/heimdall && docker-compose up -d --quiet-pull > /dev/null 2>&1 \ 
-"
+commandsSecond=( \ 
+               "systemctl start docker && systemctl enable docker > /dev/null 2>&1" \ 
+               "wget -qO /root/heimdall/docker-compose.yml $containerURL/$lxchostname/docker-compose.yml" \ 
+               "sed -i 's#TIMEZONETOCHANGE#'"$timezone"'#' /root/heimdall/docker-compose.yml"
+               "cd /root/heimdall && docker-compose up -d --quiet-pull > /dev/null 2>&1" \ 
+)
 pveCommands=""
