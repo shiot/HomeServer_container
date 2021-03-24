@@ -1,6 +1,6 @@
 #!/bin/bash
 
-( \
+lxclist=( \
   "Heimdall" "App Dashboard" on \
   "ReverseProxy" "NGINX Proxy Manager" on \
   "ExitAccess" "piHole & piVPN" on \
