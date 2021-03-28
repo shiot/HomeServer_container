@@ -1,37 +1,36 @@
 #!/bin/bash
 
 description="${ct_description}"
-inst_samba=false
-sambaUser=( "" )
-fncneeded=false
-nasneeded=false
-dvbneeded=false
-vganeeded=false
-webgui=true
-webguiName=( "WebGUI" "WebGUI (secure)" )
-webguiPort=( "" "" )
-webguiPath=( "" "" )
-webguiProtocol=( "http" "https" )
-webguiUser=( "" "" )
-webguiPass=( "" "" )
 ctTemplate=osUbuntu20_04
-#lxchostname=Heimdall
 hddsize=4
 cpucores=1
 memory=256
 swap=256
 unprivileged=1
 features="keyctl=1,nesting=1"
+containerSoftware="docker.io docker-compose"
+containerFolder="/root/heimdall/"
 apparmorProfile=""
-containerFolder=( "/root/heimdall/" )
-containerSoftware=( "docker.io" "docker-compose" )
+fncneeded=false
+nasneeded=false
+dvbneeded=false
+vganeeded=false
+inst_samba=false
+sambaUser=""
 fwPort=( "80" "443" )
-fwNetwork=( "network" "" )
-fwProtocol=( "tcp" "tcp" )
-fwDescription=( "HTTP" "HTTPS" )
+fwNetw=( "network" "" )
+fwProt=( "tcp" "tcp" )
+fwDesc=( "HTTP" "HTTPS" )
+webgui=true
+webguiName=( "WebGUI" "WebGUI (secure)" )
+webguiPort=( "" "" )
+webguiPath=( "" "" )
+webguiProt=( "http" "https" )
+webguiUser=( "" "" )
+webguiPass=( "" "" )
 commandsFirst=( "" )
-commandsSecond=( "systemctl start docker && systemctl enable docker > /dev/null 2>&1" \ 
-                "wget -qO /root/heimdall/docker-compose.yml $containerURL/$lxchostname/docker-compose.yml" \ 
-                "sed -i 's#TIMEZONETOCHANGE#'"$timezone"'#' /root/heimdall/docker-compose.yml" \ 
-                "cd /root/heimdall && docker-compose up -d --quiet-pull > /dev/null 2>&1" )
+commandsSecond="systemctl start docker && systemctl enable docker > /dev/null 2>&1 \
+               wget -qO /root/heimdall/docker-compose.yml $containerURL/$lxchostname/docker-compose.yml \
+               sed -i 's#TIMEZONETOCHANGE#'"$timezone"'#' /root/heimdall/docker-compose.yml \
+               cd /root/heimdall && docker-compose up -d --quiet-pull > /dev/null 2>&1"
 pveCommands=( "" )
