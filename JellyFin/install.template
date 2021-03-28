@@ -1,38 +1,35 @@
 #!/bin/bash
 
 description="${ct_description}"
-fncneeded=false
-nasneeded=true
-dvbneeded=false
-vganeeded=true
-inst_samba=false
-sambaUser=( "" )
-webgui=true
-webguiName=( "WebGUI" "WebGUI (HTTPS)" )
-webguiPort=( "8096" "8920" )    
-webguiPath=( "" )
-webguiProtocol=( "http" "https" )
-webguiUser=( "" )
-webguiPass=( "" )
 ctTemplate=osUbuntu20_04
-lxchostname=JellyFin
 hddsize=8
 cpucores=1
 memory=2048
 swap=2048
 unprivileged=0
 features="nesting=1,mount=nfs;cifs"
+containerSoftware="jellyfin"
+containerFolder="/media/Movies/ /media/Series/ /media/Photos/"
+inst_samba=false
+sambaUser=""
 apparmorProfile=""
-containerFolder=( "/media/Movies/" "/media/Series/" "/media/Photos/" )
-containerSoftware=( "jellyfin" )
+fncneeded=false
+nasneeded=true
+dvbneeded=false
+vganeeded=true
 fwPort=( "1900" "7359" "8096" "8920" )
-fwNetwork=( "network" "network" "pnetwork" "" )
-fwProtocol=( "udp" "udp" "tcp" "tcp" )
-fwDescription=( "service auto-discovery (DLNA)" "auto-discovery (MediaServer)" "WebGUI (HTTP)" "WebGUI (HTTPS)" )
-commandsFirst="\ 
-              add-apt-repository universe \ 
-              wget -O - https://repo.jellyfin.org/ubuntu/jellyfin_team.gpg.key | apt-key add - > /dev/null 2>&1 \ 
-              echo \"deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/ubuntu $( lsb_release -c -s ) main\" | tee /etc/apt/sources.list.d/jellyfin.list > /dev/null 2>&1 \ 
-"
+fwNetw=( "network" "network" "pnetwork" "" )
+fwProt=( "udp" "udp" "tcp" "tcp" )
+fwDesc=( "service auto-discovery (DLNA)" "auto-discovery (MediaServer)" "WebGUI (HTTP)" "WebGUI (HTTPS)" )
+webgui=true
+webguiName=( "WebGUI" "WebGUI (HTTPS)" )
+webguiPort=( "8096" "8920" )    
+webguiPath=( "" )
+webguiProt=( "http" "https" )
+webguiUser=( "" )
+webguiPass=( "" )
+commandsFirst="add-apt-repository universe \
+               wget -O - https://repo.jellyfin.org/ubuntu/jellyfin_team.gpg.key | apt-key add - > /dev/null 2>&1 \
+               echo \"deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/ubuntu $( lsb_release -c -s ) main\" | tee /etc/apt/sources.list.d/jellyfin.list > /dev/null 2>&1"
 commandsSecond="systemctl start jellyfin && systemctl enable jellyfin > /dev/null 2>&1"
 pveCommands=""
