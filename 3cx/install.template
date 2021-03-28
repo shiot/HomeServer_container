@@ -1,19 +1,6 @@
 #!/bin/bash
 
 description="${ct_description}"
-fncneeded=false
-nasneeded=false
-dvbneeded=false
-vganeeded=false
-inst_samba=false
-sambaUser=( "" )
-webgui=true
-webguiName=( "WebGUI (Admin)" "WebGUI (${lng_user})" "WebGUI (${ct_description3})" )
-webguiPort=( "5001" "5001/webclient" "5015?v=2" )
-webguiPath=( "" "" "" )
-webguiProtocol=( "http" "http" "http" )
-webguiUser=( "" "${ct_description1}" "" )
-webguiPass=( "" "${ct_description2}" "" )
 ctTemplate=osDebian9
 lxchostname=3cx
 hddsize=32
@@ -22,16 +9,27 @@ memory=1024
 swap=1024
 unprivileged=0
 features="mount=cifs;nfs"
+containerSoftware="iperf libicu57 libicu57 dphys-swapfile 3cxpbx"
+containerFolder=""
 apparmorProfile=""
-containerFolder=( "" )
-containerSoftware=( "iperf" "libicu57" "libicu57" "dphys-swapfile" "3cxpbx" )
+fncneeded=false
+nasneeded=false
+dvbneeded=false
+vganeeded=false
+inst_samba=false
+sambaUser=""
 fwPort=( "5015" "5001" "5062" "5062" "5063" "5090" "5090" "9000:10999" )
-fwNetwork=( "network" "pnetwork" "" "" "" "" "" "" )
-fwProtocol=( "tcp" "tcp" "udp" "tcp" "tcp" "udp" "tcp" "udp" )
-fwDescription=( "${fw_description1}" "${fw_description2}" "${fw_description3}" "${fw_description3}" "${fw_description4}" "${fw_description5}" "${fw_description5}" "${fw_description6}" )
-commandsFirst="\ 
-              wget -qO - http://downloads-global.3cx.com/downloads/3cxpbx/public.key | apt-key add - > /dev/null 2>&1 \ 
-              echo \"deb http://downloads-global.3cx.com/downloads/debian stretch main\" | tee /etc/apt/sources.list.d/3cxpbx.list > /dev/null 2>&1 \ 
-"
+fwNetw=( "network" "pnetwork" "" "" "" "" "" "" )
+fwProt=( "tcp" "tcp" "udp" "tcp" "tcp" "udp" "tcp" "udp" )
+fwDesc=( "${fw_description1}" "${fw_description2}" "${fw_description3}" "${fw_description3}" "${fw_description4}" "${fw_description5}" "${fw_description5}" "${fw_description6}" )
+webgui=true
+webguiName=( "WebGUI (Admin)" "WebGUI (${lng_user})" "WebGUI (${ct_description3})" )
+webguiPort=( "5001" "5001/webclient" "5015?v=2" )
+webguiPath=( "" "" "" )
+webguiProt=( "http" "http" "http" )
+webguiUser=( "" "${ct_description1}" "" )
+webguiPass=( "" "${ct_description2}" "" )
+commandsFirst="wget -qO - http://downloads-global.3cx.com/downloads/3cxpbx/public.key | apt-key add - > /dev/null 2>&1 \
+               echo \"deb http://downloads-global.3cx.com/downloads/debian stretch main\" | tee /etc/apt/sources.list.d/3cxpbx.list > /dev/null 2>&1"
 commandsSecond=""
 pveCommands=""
