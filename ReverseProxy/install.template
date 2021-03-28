@@ -1,39 +1,36 @@
 #!/bin/bash
 
 description="${ct_description}"
-inst_samba=false
-sambaUser=( "" )
-fncneeded=false
-nasneeded=false
-dvbneeded=false
-vganeeded=false
-webgui=true
-webguiName=( "WebGUI" )
-webguiPort=( "81" )
-webguiPath=( "" )
-webguiProtocol=( "http" )
-webguiUser=( "admin@example.com" )
-webguiPass=( "changeme" )
 ctTemplate=osUbuntu20_04
-lxchostname=ReverseProxy
 hddsize=4
 cpucores=1
 memory=512
 swap=512
 unprivileged=1
 features="keyctl=1,nesting=1"
+containerSoftware="docker.io docker-compose"
+containerFolder="/root/npm/"
+inst_samba=false
+sambaUser=""
 apparmorProfile=""
-containerFolder=( "/root/npm/" )
-containerSoftware=( "docker.io" "docker-compose" )
+fncneeded=false
+nasneeded=false
+dvbneeded=false
+vganeeded=false
 fwPort=( "80" "81" "443" )
-fwNetwork=( "network" "network" "" )
-fwProtocol=( "tcp" "tcp" "tcp" )
-fwDescription=( "NginxProxyManager (HTTP)" "NginxProxyManager (Admin)" "NginxProxyManager (HTTPS)" )
+fwNetw=( "network" "network" "" )
+fwProt=( "tcp" "tcp" "tcp" )
+fwDesc=( "NginxProxyManager (HTTP)" "NginxProxyManager (Admin)" "NginxProxyManager (HTTPS)" )
+webgui=true
+webguiName=( "WebGUI" )
+webguiPort=( "81" )
+webguiPath=( "" )
+webguiProt=( "http" )
+webguiUser=( "admin@example.com" )
+webguiPass=( "changeme" )
 commandsFirst=""
-commandsSecond="\ 
-               systemctl start docker && systemctl enable docker > /dev/null 2>&1 \ 
-               wget -qO /root/npm/docker-compose.yml $containerURL/$lxchostname/docker-compose.yml \ 
-               sed -i 's#ROOTPASSWORDTOCHANGE#'"$ctRootpw"'#g' /root/npm/docker-compose.yml \ 
-               cd /root/npm && docker-compose up -d --quiet-pull > /dev/null 2>&1 \ 
-"
+commandsSecond="systemctl start docker && systemctl enable docker > /dev/null 2>&1 \
+                wget -qO /root/npm/docker-compose.yml $containerURL/$lxchostname/docker-compose.yml \
+                sed -i 's#ROOTPASSWORDTOCHANGE#'"$ctRootpw"'#g' /root/npm/docker-compose.yml \
+                cd /root/npm && docker-compose up -d --quiet-pull > /dev/null 2>&1"
 pveCommands=""
