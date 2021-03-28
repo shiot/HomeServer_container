@@ -1,53 +1,44 @@
 #!/bin/bash
 
 description="${ct_description}"
-fncneeded=false
-nasneeded=true
-dvbneeded=false
-vganeeded=false
-inst_samba=false
-sambaUser=( "" )
-webgui=true
-webguiName=( "WebGUI" )
-webguiPort=( "" )    
-webguiPath=( "" )
-webguiProtocol=( "http" )
-webguiUser=( "admin" )
-webguiPass=( "changeme" )
 ctTemplate=osUbuntu20_04
-lxchostname=sabNZBd
 hddsize=4
 cpucores=1
 memory=512
 swap=512
 unprivileged=0
 features="mount=cifs"
+containerSoftware="sabnzbdplus"
+containerFolder="/media/Downloads/incomplete /media/Downloads/complete /media/Downloads/manualNZB"
+inst_samba=false
+sambaUser=""
 apparmorProfile=""
-containerFolder=( "/media/Downloads/incomplete" "/media/Downloads/complete" "/media/Downloads/manualNZB" )
-containerSoftware=( "sabnzbdplus" )
+fncneeded=false
+nasneeded=true
+dvbneeded=false
+vganeeded=false
+webgui=true
 fwPort=( "80" "443" )
-fwNetwork=( "network" "" "pnetwork" )
-fwProtocol=( "tcp" "tcp" )
-fwDescription=( "HTTP" "HTTPS" )
-commandsFirst="\ 
-              apt-get install software-properties-common \ 
-              add-apt-repository multiverse \ 
-              add-apt-repository universe \ 
-              add-apt-repository ppa:jcfp/nobetas \ 
-              add-apt-repository ppa:jcfp/sab-addons \ 
-"
-commandsSecond="\ 
-              wget -qO /root/.sabnzbd/sabnzbd.ini $containerURL/$lxchostname/sabnzbd.ini \ 
-              sed -i 's+IPADRESSTOCHANGE=+'"$ctIP"'+' /root/.sabnzbd/sabnzbd.ini \ 
-              sed -i 's+APIKEYTOCHANGE=+'"$( createAPIKey 32 )"'+' /root/.sabnzbd/sabnzbd.ini \ 
-              sed -i 's+NZBAPIKEYTOCHANGE=+'"$( createAPIKey 32 )"'+' /root/.sabnzbd/sabnzbd.ini \ 
-              sed -i 's+USER=+USER=root+' /etc/default/sabnzbdplus \ 
-              sed -i 's+HOST=+HOST='"$ctIP"'+' /etc/default/sabnzbdplus \ 
-              sed -i 's+PORT=+PORT=80+' /etc/default/sabnzbdplus \ 
-              systemctl start sabnzbdplus && systemctl enable sabnzbdplus
-"
-pveCommands="\ 
-              Command1 \ 
-              Command2 \ 
-              Command3 \ 
-"
+fwNetw=( "network" "" "pnetwork" )
+fwProt=( "tcp" "tcp" )
+fwDesc=( "HTTP" "HTTPS" )
+webguiName=( "WebGUI" )
+webguiPort=( "" )    
+webguiPath=( "" )
+webguiProt=( "http" )
+webguiUser=( "admin" )
+webguiPass=( "changeme" )
+commandsFirst="apt-get install software-properties-common \
+               add-apt-repository multiverse \
+               add-apt-repository universe \
+               add-apt-repository ppa:jcfp/nobetas \
+               add-apt-repository ppa:jcfp/sab-addons"
+commandsSecond="wget -qO /root/.sabnzbd/sabnzbd.ini $containerURL/$lxchostname/sabnzbd.ini \
+                sed -i 's+IPADRESSTOCHANGE=+'"$ctIP"'+' /root/.sabnzbd/sabnzbd.ini \
+                sed -i 's+APIKEYTOCHANGE=+'"$( createAPIKey 32 )"'+' /root/.sabnzbd/sabnzbd.ini \
+                sed -i 's+NZBAPIKEYTOCHANGE=+'"$( createAPIKey 32 )"'+' /root/.sabnzbd/sabnzbd.ini \
+                sed -i 's+USER=+USER=root+' /etc/default/sabnzbdplus \
+                sed -i 's+HOST=+HOST='"$ctIP"'+' /etc/default/sabnzbdplus \
+                sed -i 's+PORT=+PORT=80+' /etc/default/sabnzbdplus \
+                systemctl start sabnzbdplus && systemctl enable sabnzbdplus"
+pveCommands=""
