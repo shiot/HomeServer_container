@@ -8,15 +8,15 @@ memory=256                                            # Memorysize in MB (RAM)
 swap=256                                              # SWAP size in MB (SWAP)
 unprivileged=1                                        # Privileged/Unprivileged Container, 0=False - 1=True
 features="keyctl=1,nesting=1"                         # force_rw_sys=<1|0>,fuse=<1|0>,keyctl=<1|0>,mknod=<1|0>,mount=<fstype;fstype;...>,nesting=<1|0> in quotation marks
-containerSoftware="curl wget" )                       # Software packages that need to be installed - process starts after "commandsFirst" Variable >> Write each package in quotes
+containerSoftware="curl wget"                         # Software packages that need to be installed - process starts after "commandsFirst" Variable >> Write each package in quotes
 containerFolder="/mnt/backup/$lxchostname /media/Pictures"   # These directories are created in the file system before the commandsFirst variable commands are executed. If a NAS is bound into the container, this has already taken place. >> Write each Folder in quotes
+inst_samba=false                                      # Install Samba in Container >> true or false
+sambaUser="User1 User2"                               # Users for whom a Samba share is to be created. Login data can be found in the container description in the Proxmox WebGUI.Passwords can be changed in the container shell with the command >> smbpasswd -a USERNAME <<.
 apparmorProfile=""                                    # change the App-Armor profile in the container - possible (unconfined, unchanged, generated) >> leave blank for standard settings
 fncneeded=false                                       # Loads the file "functions.template" from the installation directory in web and includes it
 nasneeded=false                                       # Bind NAS if exist to Container >> true or false
 dvbneeded=false                                       # Bind DVB-TV-Card if exist to Container >> true or false
 vganeeded=false                                       # Bind Graphic Card if exist to Container >> true or false
-inst_samba=false                                      # Install Samba in Container >> true or false
-sambaUser="User1 User2"                               # Users for whom a Samba share is to be created. Login data can be found in the container description in the Proxmox WebGUI.Passwords can be changed in the container shell with the command >> smbpasswd -a USERNAME <<.
 fwPort=( "80" "443" "22" )                            # Ports to be released in the container firewall >> Write each package in quotes
 fwNetw=( "network" "" "pnetwork" )                    # Network groups from which these ports can be accessed. Leave empty for all networks. Group "network" is for the subnet where the proxmox server is installed. Group "pnetwork" is for all private networks (10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16). IMPORTANT: "pnetwork" must be specified if VPN access is allowed. >> Write each Folder in quotes >> IMPORTANT! If not necessary only two quotation marks
 fwProt=( "tcp" "tcp" "tcp" )                          # Protocol for port sharing - example ( "tcp" "udp" ) >> Write each port in quotes >> IMPORTANT! If not necessary only two quotation marks
@@ -34,20 +34,20 @@ webguiProt=( "http" )                                 # WebGUI-Protocol - exampl
 # PPA, for example (apt-add-repository -y ppa:example/example) or download a Docker-Compose configuration file (wget -qO - /root/docker/file.conf https://example.domain.com/file.conf).
 # Finish every Command line with space Backslash space.
 # If you install a SQL database and need to do a SQL secure, this can be done with the command/call to the function "lxc_SQLSecure".
-commandsFirst="Command1 \ 
-               Command2 \ 
+commandsFirst="Command1 \
+               Command2 \
                Command3"
 
 # Commands to be executed in the container's shell before the actual software is installed. For example, generating a repository
 # list (echo \"deb https://download.example.com/repo/ubuntu focal main\" | tee /etc/apt/sources.list.d/example.list) or adding a
 # PPA, for example (apt-add-repository -y ppa:example/example). or download a Docker-Compose configuration file (wget -qO - /root/docker/file.conf https://example.domain.com/file.conf).
 # Finish every Command line with space Backslash.
-commandsSecond="Command1 \ 
-                Command2 \ 
+commandsSecond="Command1 \
+                Command2 \
                 Command3"
 
 # Commands to be executed in the host (proxmox) shell. For example (echo -e "influxdb: InfluxDB\n        port 8089\n        server ${ctIP}" > /etc/pve/status.cfg) to connect your Proxmox
 # host to influxDB as a metric server, or calling functions loaded from the "functions.template" file.
-pveCommands="Command1 \ 
-             Command2 \ 
+pveCommands="Command1 \
+             Command2 \
              Command3"
