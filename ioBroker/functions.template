@@ -17,9 +17,9 @@ restoreAdapter="parser javascript web vis "
 
 function iobinstallVariation() {
 # Function asks the user if ioBroker should be installed normally or for a restore
-  variation=$(whiptail --nocancel --backtitle "© 2021 - SmartHome-IoT.net - $lxchostname" --title "$lxchostname $lng_configuration" --menu "$iob_config_text" 25 78 16 \
-              "1" "${iob_config_choose_text}" \
-              "2" "${iob_config_choose_text1}")
+  variation=$(whiptail --nocancel --backtitle "© 2021 - SmartHome-IoT.net - $lxchostname" --title "$lxchostname $lng_configuration" --menu "$iob_config_text" 25 78 16 \ 
+              "1" "${iob_config_choose_text}" \ 
+              "2" "${iob_config_choose_text1}" 3>&1 1>&2 2>&3)
   if [[ $variation == "2" ]]; then
     restorevariation=$(whiptail --yesno --backtitle "© 2021 - SmartHome-IoT.net - $lxchostname" --title "$lxchostname $lng_configuration" "$iob_config_restore_mthod" 20 70 3>&1 1>&2 2>&3)
     yesno=$?
@@ -49,11 +49,27 @@ function iobinstallAdapter() {
     pct exec $ctID -- bash -ci "iobroker set proxmox.0 --ip $pveIP --name $var_robotname --select-options-225a0870-9529-3d5e-9970-0bbdb092c4d21 true --pwd $var_robotpw > /dev/null 2>&1"
     if [[ $var_gwmanufacturer == "avm" ]]; then
       pct exec $ctID -- bash -ci "iobroker add iobroker.fb-checkpresence --enabled > /dev/null 2>&1"
-      pct exec $ctID -- bash -ci "iobroker set fb-checkpresence.0 --ipaddress $gatewayIP --username $var_robotname --password $var_robotpw --select-options-0060129c-6cb9-01e2-39c5-1449a75d940c1 true --dateformat \"dd.mm.yyyy HH:MM\" > /dev/null 2>&1"
+      whiptail --yesno --backtitle "SmartHome-IoT.net - $ctName" --title "AVM FRITZ!Box" "$iob_config_networkrobot \"$var_robotname\" $iob_config_networkrobot1" ${r} ${c}
+      yesno=$?
+      if [[ $yesno == 0 ]]; then
+        pct exec $ctID -- bash -ci "iobroker set fb-checkpresence.0 --ipaddress $gatewayIP --username $var_robotname --password $var_robotpw --select-options-0060129c-6cb9-01e2-39c5-1449a75d940c1 true --dateformat \"dd.mm.yyyy HH:MM\" > /dev/null 2>&1"
+      else
+        vargwadmin=$(whiptail --inputbox --nocancel --backtitle "SmartHome-IoT.net - $ctName" --title "Ubiqiti / Unifi" "$iob_config_networkrobot2" ${r} ${c} 3>&1 1>&2 2>&3)
+        vargwadminpw=$(whiptail --inputbox --nocancel --backtitle "SmartHome-IoT.net - $ctName" --title "Ubiqiti / Unifi" "$iob_config_networkrobot3" ${r} ${c} 3>&1 1>&2 2>&3)
+        pct exec $ctID -- bash -ci "iobroker set fb-checkpresence.0 --ipaddress $gatewayIP --username $vargwadmin --password $vargwadminpw --select-options-0060129c-6cb9-01e2-39c5-1449a75d940c1 true --dateformat \"dd.mm.yyyy HH:MM\" > /dev/null 2>&1"
+      fi
     fi
     if [[ $var_gwmanufacturer == "unifi" ]]; then
       pct exec $ctID -- bash -ci "iobroker add iobroker.unifi --enabled > /dev/null 2>&1"
-      pct exec $ctID -- bash -ci "iobroker set unifi.0 --controllerIp $gatewayIP --controllerUsername $var_robotname --controllerPassword $var_robotpw > /dev/null 2>&1"
+      whiptail --yesno --backtitle "SmartHome-IoT.net - $ctName" --title "Ubiqiti / Unifi" "$iob_config_networkrobot \"$var_robotname\" $iob_config_networkrobot1" ${r} ${c}
+      yesno=$?
+      if [[ $yesno == 0 ]]; then
+        pct exec $ctID -- bash -ci "iobroker set unifi.0 --controllerIp $gatewayIP --controllerUsername $var_robotname --controllerPassword $var_robotpw > /dev/null 2>&1"
+      else
+        vargwadmin=$(whiptail --inputbox --nocancel --backtitle "SmartHome-IoT.net - $ctName" --title "Ubiqiti / Unifi" "$iob_config_networkrobot2" ${r} ${c} 3>&1 1>&2 2>&3)
+        vargwadminpw=$(whiptail --inputbox --nocancel --backtitle "SmartHome-IoT.net - $ctName" --title "Ubiqiti / Unifi" "$iob_config_networkrobot3" ${r} ${c} 3>&1 1>&2 2>&3)
+        pct exec $ctID -- bash -ci "iobroker set unifi.0 --controllerIp $gatewayIP --controllerUsername $vargwadmin --controllerPassword $vargwadminpw > /dev/null 2>&1"
+      fi
     fi
     if [ -n "$var_nasip" ] && $nasneeded; then
       pct exec $ctID -- bash -ci "iobroker add iobroker.backitup --enabled > /dev/null 2>&1"
@@ -63,6 +79,8 @@ function iobinstallAdapter() {
         pct exec $ctID -- bash -ci "iobroker set synology.0 --host $var_nasip --login $var_robotname --password $var_robotpw --select-options-eaf2de04-a533-e52b-f1f9-4397440daa4718 true > /dev/null 2>&1"
       fi
     fi
+    pct exec $ctID -- bash -ci "iobroker passwd admin --password changeme > /dev/null 2>&1"
+    pct exec $ctID -- bash -ci "iobroker set admin.0 --auth true > /dev/null 2>&1"
   elif [ $1 = 1 ]; then
     for adp in $restoreAdapter; do
       pct exec $ctID -- bash -ci "iobroker add iobroker.$adp > /dev/null 2>&1"
