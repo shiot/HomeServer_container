@@ -39,7 +39,7 @@ commandsFirst="wget -qO /etc/pihole/setupVars.conf $containerURL/$lxchostname/pi
                crontab -l | { cat; echo \"0 03 1,14 * *   root    /root/updateAdlistPihole.sh\"; } | crontab - \
                wget -qO /etc/pivpn/openvpn/setupVars.conf $containerURL/$lxchostname/piVPN_setupVars.conf \
                sed -i 's#VPNUSERTOCHANGE#'"$sambaUser"'#g' /etc/pihole/setupVars.conf \
-               lxcfqdn=$(whiptail --inputbox --nocancel --backtitle "SmartHome-IoT.net - piVPN" --title "Hostname - $pivpn_title" "$pivpn_text" ${r} ${c} $publicIP 3>&1 1>&2 2>&3) && sed -i 's#HOSTTOCHANGE#'"$lxcfqdn"'#g' /etc/pivpn/openvpn/setupVars.conf \
+               lxcfqdn=$(whiptail --inputbox --nocancel --backtitle "SmartHome-IoT.net - piVPN" --title "Hostname - ${pivpn_title}" "${pivpn_text}" ${r} ${c} $publicIP 3>&1 1>&2 2>&3) && sed -i 's#HOSTTOCHANGE#'"$lxcfqdn"'#g' /etc/pivpn/openvpn/setupVars.conf \
                curl -sSL https://install.pivpn.io | bash /dev/stdin --unattended /etc/pivpn/openvpn/setupVars.conf > /dev/null 2>&1 \
                export PATH=\"/usr/local/bin:$PATH\" \
                echo \"interface=tun0\" > /etc/dnsmasq.d/02-pivpn.conf \
