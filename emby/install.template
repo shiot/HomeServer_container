@@ -1,19 +1,6 @@
 #!/bin/bash
 
 description="${ct_description}"
-fncneeded=false
-nasneeded=true
-dvbneeded=false
-vganeeded=true
-inst_samba=false
-sambaUser=( "" )
-webgui=true
-webguiName=( "WebGUI" )
-webguiPort=( "32400" "8920" )
-webguiPath=( "/web" )
-webguiProtocol=( "http" )
-webguiUser=( "" )
-webguiPass=( "" )
 ctTemplate=osUbuntu20_04
 lxchostname=Plex
 hddsize=8
@@ -22,17 +9,28 @@ memory=2048
 swap=2048
 unprivileged=0
 features="nesting=1,mount=nfs;cifs"
+containerSoftware=""
+containerFolder="/media/Movies/ /media/Series/ /media/Photos/"
 apparmorProfile=""
-containerFolder=( "/media/Movies/" "/media/Series/" "/media/Photos/" )
-containerSoftware=( "" )
+fncneeded=false
+nasneeded=true
+dvbneeded=false
+vganeeded=true
+inst_samba=false
+sambaUser=""
 fwPort=( "1900" "7359" "8096" "8920" )
-fwNetwork=( "network" "network" "pnetwork" "" )
-fwProtocol=( "udp" "udp" "tcp" "tcp" )
-fwDescription=( "service auto-discovery (DLNA)" "auto-discovery (MediaServer)" "WebGUI (HTTP)" "WebGUI (HTTPS)" )
-commandsFirst="\ 
-              wget -q https://github.com/MediaBrowser/Emby.Releases/releases/download/$( getLatestGit \"MediaBrowser/Emby.Releases\" )/emby-server-deb_$( getLatestGit \"MediaBrowser/Emby.Releases\" )_amd64.deb \ 
-              dpkg -i emby-server-deb_*_amd64.deb > /dev/null 2>&1 \
-              rm emby-server-deb_*_amd64.deb
-"
+fwNetw=( "network" "network" "pnetwork" "" )
+fwProt=( "udp" "udp" "tcp" "tcp" )
+fwDesc=( "service auto-discovery (DLNA)" "auto-discovery (MediaServer)" "WebGUI (HTTP)" "WebGUI (HTTPS)" )
+webgui=true
+webguiName=( "WebGUI" )
+webguiPort=( "32400" "8920" )
+webguiPath=( "/web" )
+webguiProt=( "http" )
+webguiUser=( "" )
+webguiPass=( "" )
+commandsFirst="wget -q https://github.com/MediaBrowser/Emby.Releases/releases/download/$( getLatestGit \"MediaBrowser/Emby.Releases\" )/emby-server-deb_$( getLatestGit \"MediaBrowser/Emby.Releases\" )_amd64.deb \
+               dpkg -i emby-server-deb_*_amd64.deb > /dev/null 2>&1 \
+               rm emby-server-deb_*_amd64.deb"
 commandsSecond="systemctl start emby-server && systemctl enable emby-server > /dev/null 2>&1"
 pveCommands=""
