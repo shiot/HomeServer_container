@@ -1,49 +1,68 @@
 #!/bin/bash
 
-description="${ct_description}"
-ctTemplate=osUbuntu20_04
-lxchostname=ExitAccess
+################### Container Configuration ###################
+
+template=osUbuntu20_04
 hddsize=4
 cpucores=1
 memory=512
 swap=512
 unprivileged=1
 features=""
-containerSoftware=""
-containerFolder="/etc/pihole/ /etc/pivpn/openvpn/"
-apparmorProfile=""
-fncneeded=true
-nasneeded=false
-dvbneeded=false
-vganeeded=false
-inst_samba=true
-sambaUser="pivpn"
-fwPort=( "53" "53" "67" "547" "80" "4711" "1194" "51820" )
-fwNetw=( "pnetwork" "pnetwork" "pnetwork" "pnetwork" "network" "network" "" "" )
-fwProt=( "tcp" "udp" "udp" "udp" "tcp" "udp" "udp" )
-fwDesc=( "piHole-FTL (DNS)" "piHole-FTL (DNS)" "piHole-FTL (DHCPv4)" "piHole-FTL (DHCPv6)" "piHole (HTTP)" "piHole-FTL (API)" "piVPN (openVPN)" "piVPN (wireguard)" )
+description="${ct_description}"
+
+#################### WebGUI Configuration #####################
+
 webgui=true
 webguiName=( "WebGUI (piHole)" )
-webguiProt=( "http" )
 webguiPort=( "" )
 webguiPath=( "/admin" )
 webguiUser=( "" )
 webguiPass=( "changeme" )
-commandsFirst="wget -qO /etc/pihole/setupVars.conf $containerURL/$lxchostname/piHole_setupVars.conf \
-               sed -i 's#IPADRESSTOCHANGE#'"$ctIP"'#g' /etc/pihole/setupVars.conf \
-               sed -i 's#CIDRTOCHANGE#'"$cidr"'#g' /etc/pihole/setupVars.conf \
-               curl -sSL https://install.pi-hole.net | bash /dev/stdin --unattended > /dev/null 2>&1 \
-               /usr/local/bin/pihole -a -p changeme > /dev/null 2>&1 \
-               curl -sSL $containerURL/$lxchostname/updateAdlistPihole.sh | bash \
-               wget -qO /root/updateAdlistPihole.sh $containerURL/$lxchostname/updateAdlistPihole.sh && chmod +x /root/updateAdlistPihole.sh \
-               crontab -l | { cat; echo \"0 03 1,14 * *   root    /root/updateAdlistPihole.sh\"; } | crontab - \
-               wget -qO /etc/pivpn/openvpn/setupVars.conf $containerURL/$lxchostname/piVPN_setupVars.conf \
-               sed -i 's#VPNUSERTOCHANGE#'"$sambaUser"'#g' /etc/pihole/setupVars.conf \
-               lxcfqdn=$(whiptail --inputbox --nocancel --backtitle "SmartHome-IoT.net - piVPN" --title "Hostname - ${pivpn_title}" "${pivpn_text}" ${r} ${c} $publicIP 3>&1 1>&2 2>&3) && sed -i 's#HOSTTOCHANGE#'"$lxcfqdn"'#g' /etc/pivpn/openvpn/setupVars.conf \
-               curl -sSL https://install.pivpn.io | bash /dev/stdin --unattended /etc/pivpn/openvpn/setupVars.conf > /dev/null 2>&1 \
-               export PATH=\"/usr/local/bin:$PATH\" \
-               echo \"interface=tun0\" > /etc/dnsmasq.d/02-pivpn.conf \
-               /etc/init.d/openvpn restart \
-               /etc/init.d/pihole-FTL restart"
-commandsSecond=""
+webguiProt=( "http" )
+
+################### Firewall Configuration ####################
+
+fwPort=( "53" "53" "67" "547" "80" "4711" "1194" "51820" )
+fwNetw=( "pnetwork" "pnetwork" "pnetwork" "pnetwork" "network" "network" "" "" )
+fwProt=( "tcp" "udp" "udp" "udp" "tcp" "udp" "udp" )
+fwDesc=( "piHole-FTL (DNS)" "piHole-FTL (DNS)" "piHole-FTL (DHCPv4)" "piHole-FTL (DHCPv6)" "piHole (HTTP)" "piHole-FTL (API)" "piVPN (openVPN)" "piVPN (wireguard)" )
+
+#################### Needed Hardwarebinds #####################
+
+nasneeded=false
+dvbneeded=false
+vganeeded=false
+
+####################### Needed Services #######################
+
+fncneeded=true
+smtpneeded=false
+apparmorProfile=""
+inst_samba=true
+sambaUser="pivpn"
+
+##################### Container Commands ######################
+
+lxcCommands="mkdir -p /etc/pihole/ \
+             mkdir -p /etc/pivpn/openvpn/ \
+             wget -qO /etc/pihole/setupVars.conf $containerURL/$lxchostname/piHole_setupVars.conf \
+             sed -i 's#IPADRESSTOCHANGE#'"$ctIP"'#g' /etc/pihole/setupVars.conf \
+             sed -i 's#CIDRTOCHANGE#'"$cidr"'#g' /etc/pihole/setupVars.conf \
+             curl -sSL https://install.pi-hole.net | bash /dev/stdin --unattended > /dev/null 2>&1 \
+             /usr/local/bin/pihole -a -p changeme > /dev/null 2>&1 \
+             curl -sSL $containerURL/$lxchostname/updateAdlistPihole.sh | bash \
+             wget -qO /root/updateAdlistPihole.sh $containerURL/$lxchostname/updateAdlistPihole.sh && chmod +x /root/updateAdlistPihole.sh \
+             crontab -l | { cat; echo \"0 03 1,14 * *   root    /root/updateAdlistPihole.sh\"; } | crontab - \
+             wget -qO /etc/pivpn/openvpn/setupVars.conf $containerURL/$lxchostname/piVPN_setupVars.conf \
+             sed -i 's#VPNUSERTOCHANGE#'"$sambaUser"'#g' /etc/pihole/setupVars.conf \
+             lxcfqdn=$(whiptail --inputbox --nocancel --backtitle "SmartHome-IoT.net - piVPN" --title "Hostname - ${pivpn_title}" "${pivpn_text}" ${r} ${c} $publicIP 3>&1 1>&2 2>&3) && sed -i 's#HOSTTOCHANGE#'"$lxcfqdn"'#g' /etc/pivpn/openvpn/setupVars.conf \
+             curl -sSL https://install.pivpn.io | bash /dev/stdin --unattended /etc/pivpn/openvpn/setupVars.conf > /dev/null 2>&1 \
+             export PATH=\"/usr/local/bin:$PATH\" \
+             echo \"interface=tun0\" > /etc/dnsmasq.d/02-pivpn.conf \
+             /etc/init.d/openvpn restart \
+             /etc/init.d/pihole-FTL restart"
+
+######################## Host Commands ########################
+
 pveCommands="addVPNUser"
