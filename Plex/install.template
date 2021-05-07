@@ -1,35 +1,58 @@
 #!/bin/bash
 
-description="${ct_description}"
-ctTemplate=osUbuntu20_04
+################### Container Configuration ###################
+
+template=osUbuntu20_04
 hddsize=8
 cpucores=1
 memory=2048
 swap=2048
 unprivileged=0
 features="nesting=1,mount=nfs;cifs"
-fncneeded=false
-nasneeded=true
-dvbneeded=false
-vganeeded=true
-containerSoftware="plexmediaserver"
-containerFolder="/media/Movies/ /media/Series/ /media/Photos/"
-inst_samba=false
-sambaUser=""
-apparmorProfile=""
+description="${ct_description}"
+
+#################### WebGUI Configuration #####################
+
+webgui=true
+webguiName=( "WebGUI" )
+webguiPort=( "32400" )
+webguiPath=( "/web" )
+webguiUser=( "" )
+webguiPass=( "" )
+webguiProt=( "http" )
+
+################### Firewall Configuration ####################
+
 fwPort=( "32400" "1900" "5353" "8324" "32410" "32412:32414" "32469" )
 fwNetw=( "" "network" "network" "network" "network" "network" "network" )
 fwProt=( "tcp" "udp" "udp" "tcp" "udp" "udp" "tcp" )
 fwDesc=( "access to the Plex Media Server" "access to the Plex DLNA Server" "older Bonjour/Avahi network discovery" "controlling Plex for Roku via Plex Companion" "controlling Plex for Roku via Plex Companion" "controlling Plex for Roku via Plex Companion" "access to the Plex DLNA Server" )
-webgui=true
-webguiName=( "WebGUI" )
-webguiPort=( "32400" "8920" )
-webguiPath=( "/web" )
-webguiProt=( "http" )
-webguiUser=( "" )
-webguiPass=( "" )
-commandsFirst="wget -q https://downloads.plex.tv/plex-keys/PlexSign.key -O - | apt-key add - > /dev/null 2>&1 \
-               echo \"deb https://downloads.plex.tv/repo/deb/ public main\" | tee /etc/apt/sources.list.d/plexmediaserver.list > /dev/null 2>&1"
-commandsSecond="systemctl start plexmediaserver && systemctl enable plexmediaserver > /dev/null 2>&1 \
-                sed -i 's+# deb+deb+' /etc/apt/sources.list.d/plexmediaserver.list"
+
+#################### Needed Hardwarebinds #####################
+
+nasneeded=true
+dvbneeded=false
+vganeeded=true
+
+####################### Needed Services #######################
+
+fncneeded=false
+smtpneeded=false
+apparmorProfile=""
+inst_samba=false
+sambaUser=""
+
+##################### Container Commands ######################
+
+lxcCommands="wget -q https://downloads.plex.tv/plex-keys/PlexSign.key -O - | apt-key add - > /dev/null 2>&1 \
+             echo \"deb https://downloads.plex.tv/repo/deb/ public main\" | tee /etc/apt/sources.list.d/plexmediaserver.list > /dev/null 2>&1 \
+             apt-get install -y plexmediaserver > /dev/null 2>&1 \
+             mkdir -p /media/Movies/ > /dev/null 2>&1 \
+             mkdir -p /media/Series/ > /dev/null 2>&1 \
+             mkdir -p /media/Photos/ > /dev/null 2>&1 \
+             systemctl start plexmediaserver && systemctl enable plexmediaserver > /dev/null 2>&1 \
+             sed -i 's+# deb+deb+' /etc/apt/sources.list.d/plexmediaserver.list"
+
+######################## Host Commands ########################
+
 pveCommands=""
