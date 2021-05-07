@@ -1,5 +1,5 @@
 #!/bin/bash
-#
+
 # function test() {
 #   >> SOME COMMANDS <<
 # }
@@ -42,6 +42,7 @@ function iobinstallAdapter() {
     for adp in $standardAdapter; do
       pct exec $ctID -- bash -ci "iobroker add iobroker.$adp > /dev/null 2>&1"
     done
+    pct exec $ctID -- bash -ci "mkdir -p /mnt/backup/$lxchostname/javascript/"
     pct exec $ctID -- bash -ci "iobroker set javascript.0 --mirrorPath \"/mnt/backup/$lxchostname/javascript/\" --enableSetObject true --enableExec true --enableSendToHost true > /dev/null 2>&1"
     vislicensecode=$(whiptail --inputbox --nocancel --backtitle "© 2021 - SmartHome-IoT.net - $lxchostname" --title "$lxchostname $lng_configuration" "$iob_config_vis_license" 20 70 3>&1 1>&2 2>&3)
     pct exec $ctID -- bash -ci "iobroker set vis.0 --license "$vislicensecode" > /dev/null 2>&1"
