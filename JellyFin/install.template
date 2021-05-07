@@ -1,35 +1,58 @@
 #!/bin/bash
 
-description="${ct_description}"
-ctTemplate=osUbuntu20_04
+################### Container Configuration ###################
+
+template=osUbuntu20_04
 hddsize=8
 cpucores=1
 memory=2048
 swap=2048
 unprivileged=0
 features="nesting=1,mount=nfs;cifs"
-containerSoftware="jellyfin"
-containerFolder="/media/Movies/ /media/Series/ /media/Photos/"
-inst_samba=false
-sambaUser=""
-apparmorProfile=""
-fncneeded=false
-nasneeded=true
-dvbneeded=false
-vganeeded=true
+description="${ct_description}"
+
+#################### WebGUI Configuration #####################
+
+webgui=true
+webguiName=( "WebGUI" "WebGUI (HTTPS)" )
+webguiPort=( "8096" "8920" )
+webguiPath=( "" "" )
+webguiUser=( "" "" )
+webguiPass=( "" "" )
+webguiProt=( "http" "https" )
+
+################### Firewall Configuration ####################
+
 fwPort=( "1900" "7359" "8096" "8920" )
 fwNetw=( "network" "network" "pnetwork" "" )
 fwProt=( "udp" "udp" "tcp" "tcp" )
 fwDesc=( "service auto-discovery (DLNA)" "auto-discovery (MediaServer)" "WebGUI (HTTP)" "WebGUI (HTTPS)" )
-webgui=true
-webguiName=( "WebGUI" "WebGUI (HTTPS)" )
-webguiPort=( "8096" "8920" )    
-webguiPath=( "" )
-webguiProt=( "http" "https" )
-webguiUser=( "" )
-webguiPass=( "" )
-commandsFirst="add-apt-repository universe \
-               wget -O - https://repo.jellyfin.org/ubuntu/jellyfin_team.gpg.key | apt-key add - > /dev/null 2>&1 \
-               echo \"deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/ubuntu $( lsb_release -c -s ) main\" | tee /etc/apt/sources.list.d/jellyfin.list > /dev/null 2>&1"
-commandsSecond="systemctl start jellyfin && systemctl enable jellyfin > /dev/null 2>&1"
+
+#################### Needed Hardwarebinds #####################
+
+nasneeded=true
+dvbneeded=false
+vganeeded=true
+
+####################### Needed Services #######################
+
+fncneeded=false
+smtpneeded=false
+apparmorProfile=""
+inst_samba=false
+sambaUser=""
+
+##################### Container Commands ######################
+
+lxcCommands="add-apt-repository universe \
+             wget -O - https://repo.jellyfin.org/ubuntu/jellyfin_team.gpg.key | apt-key add - > /dev/null 2>&1 \
+             echo \"deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/ubuntu $( lsb_release -c -s ) main\" | tee /etc/apt/sources.list.d/jellyfin.list > /dev/null 2>&1 \
+             apt-get install -y jellyfin > /dev/null 2>&1 \
+             mkdir -p /media/Movies/ \
+             mkdir -p /media/Series/ \
+             mkdir -p /media/Photos/ \
+             systemctl start jellyfin && systemctl enable jellyfin > /dev/null 2>&1"
+
+######################## Host Commands ########################
+
 pveCommands=""
