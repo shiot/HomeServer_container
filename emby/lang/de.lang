@@ -1,7 +1,7 @@
 #!/bin/bash
-#
+
 # variable="some Text"
 # other_variable="some other Text"
 #
 
-ct_description="Ihre persönlichen Medien auf jedem Gerät"
+ct_description="Deine Medien auf jedem Gerät"
