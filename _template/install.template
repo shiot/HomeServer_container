@@ -62,6 +62,7 @@ lxcCommands="Command1 \
 # Commands to be executed in the host (proxmox) shell. For example
 # echo -e "influxdb: InfluxDB\n        port 8089\n        server ${ctIP}" > /etc/pve/status.cfg
 # to connect your Proxmox host to influxDB Container as a metric server.
+
 pveCommands="Command1 \
              Command2 \
              Command3"
