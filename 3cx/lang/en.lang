@@ -1,10 +1,10 @@
 #!/bin/bash
-#
+
 # variable="some Text"
 # other_variable="some other Text"
 #
 
-ct_description="3cx Phone System"
+ct_description0="3cx Phone System"
 ct_description1="Extension number"
 ct_description2="will be sent by e-mail"
 ct_description3="Initial setup"
