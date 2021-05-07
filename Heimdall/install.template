@@ -1,36 +1,56 @@
 #!/bin/bash
 
-description="${ct_description}"
-ctTemplate=osUbuntu20_04
+################### Container Configuration ###################
+
+template=osUbuntu20_04
 hddsize=4
 cpucores=1
 memory=256
 swap=256
 unprivileged=1
 features="keyctl=1,nesting=1"
-containerSoftware="docker.io docker-compose"
-containerFolder="/root/heimdall/"
-apparmorProfile=""
-fncneeded=false
-nasneeded=false
-dvbneeded=false
-vganeeded=false
-inst_samba=false
-sambaUser=""
-fwPort=( "80" "443" )
-fwNetw=( "network" "" )
-fwProt=( "tcp" "tcp" )
-fwDesc=( "HTTP" "HTTPS" )
+description="${ct_description}"
+
+#################### WebGUI Configuration #####################
+
 webgui=true
 webguiName=( "WebGUI" "WebGUI (secure)" )
 webguiPort=( "" "" )
 webguiPath=( "" "" )
-webguiProt=( "http" "https" )
 webguiUser=( "" "" )
 webguiPass=( "" "" )
-commandsFirst=( "" )
-commandsSecond="systemctl start docker && systemctl enable docker > /dev/null 2>&1 \
-               wget -qO /root/heimdall/docker-compose.yml $containerURL/$lxchostname/docker-compose.yml \
-               sed -i 's#TIMEZONETOCHANGE#'"$timezone"'#' /root/heimdall/docker-compose.yml \
-               cd /root/heimdall && docker-compose up -d --quiet-pull > /dev/null 2>&1"
-pveCommands=( "" )
+webguiProt=( "http" "https" )
+
+################### Firewall Configuration ####################
+
+fwPort=( "80" "443" )
+fwNetw=( "network" "" )
+fwProt=( "tcp" "tcp" )
+fwDesc=( "HTTP" "HTTPS" )
+
+#################### Needed Hardwarebinds #####################
+
+nasneeded=false
+dvbneeded=false
+vganeeded=false
+
+####################### Needed Services #######################
+
+fncneeded=false
+smtpneeded=false
+apparmorProfile=""
+inst_samba=false
+sambaUser=""
+
+##################### Container Commands ######################
+
+lxcCommands="apt-get install -y docker.io docker-compose > /dev/null 2>&1 \
+             systemctl start docker && systemctl enable docker > /dev/null 2>&1 \
+             mkdir -p /root/heimdall/
+             wget -qO /root/heimdall/docker-compose.yml $containerURL/$lxchostname/docker-compose.yml \
+             sed -i 's#TIMEZONETOCHANGE#'"$timezone"'#' /root/heimdall/docker-compose.yml \
+             cd /root/heimdall && docker-compose up -d --quiet-pull > /dev/null 2>&1"
+
+######################## Host Commands ########################
+
+pveCommands=""
