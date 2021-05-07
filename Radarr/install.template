@@ -1,41 +1,62 @@
 #!/bin/bash
 
-description="${ct_description}"
-ctTemplate=osUbuntu20_04
+################### Container Configuration ###################
+
+template=osUbuntu20_04
 hddsize=8
 cpucores=1
 memory=256
 swap=256
 unprivileged=0
 features="mount=cifs"
-containerSoftware="mono-devel mediainfo"
-containerFolder="/media/Movies"
-inst_samba=false
-sambaUser=""
-apparmorProfile="unconfined"
-fncneeded=false
-nasneeded=true
-dvbneeded=false
-vganeeded=false
-fwPort=( "80" "443" )
-fwNetw=( "network" "pnetwork" )
-fwProt=( "tcp" "tcp" )
-fwDesc=( "HTTP" "HTTPS" )
+description="${ct_description}"
+
+#################### WebGUI Configuration #####################
+
 webgui=true
 webguiName=( "WebGUI" )
 webguiPort=( "" )    
 webguiPath=( "" )
-webguiProt=( "http" )
 webguiUser=( "" )
 webguiPass=( "" )
-commandsFirst="apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
-               echo \"deb https://download.mono-project.com/repo/ubuntu stable-focal main\" | tee /etc/apt/sources.list.d/mono-official-stable.list"
-commandsSecond="wget -q https://github.com/Radarr/Radarr/releases/download/$( getLatestGit \"Radarr/Radarr\" )/Radarr.master.$( getLatestGit \"Radarr/Radarr\" ).linux.tar.gz  \
-                tar -xvzf Radarr.*.linux.tar.gz \
-                mv Radarr /opt \
-                wget -qO /etc/systemd/system/radarr.service $containerURL/$lxchostname/radarr.service \
-                wget -qO /root/.config/Radarr/config.xml $containerURL/$lxchostname/config.xml \
-                sed -i 's#IPADRESSTOCHANGE#'"$ctIP"'#' /root/.config/Radarr/config.xml \
-                sed -i 's#APIKEYTOCHANGE#'"$( createAPIKey 32 )"'#' /root/.config/Radarr/config.xml \
-                systemctl start radarr && systemctl enable radarr"
+webguiProt=( "http" )
+
+################### Firewall Configuration ####################
+
+fwPort=( "80" "443" )
+fwNetw=( "network" "pnetwork" )
+fwProt=( "tcp" "tcp" )
+fwDesc=( "HTTP" "HTTPS" )
+
+#################### Needed Hardwarebinds #####################
+
+nasneeded=true
+dvbneeded=false
+vganeeded=false
+
+####################### Needed Services #######################
+
+fncneeded=false
+smtpneeded=false
+apparmorProfile="unconfined"
+inst_samba=false
+sambaUser=""
+
+##################### Container Commands ######################
+
+lxcCommands="apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
+             echo \"deb https://download.mono-project.com/repo/ubuntu stable-focal main\" | tee /etc/apt/sources.list.d/mono-official-stable.list \
+             apt-get install -y mono-devel mediainfo > /dev/null 2>&1 \
+             wget -q https://github.com/Radarr/Radarr/releases/download/$( getLatestGit \"Radarr/Radarr\" )/Radarr.master.$( getLatestGit \"Radarr/Radarr\" ).linux.tar.gz  \
+             tar -xvzf Radarr.*.linux.tar.gz \
+             mv Radarr /opt \
+             mkdir -p /media/Movies > /dev/null 2>&1 \
+             wget -qO /etc/systemd/system/radarr.service $containerURL/$lxchostname/radarr.service \
+             wget -qO /root/.config/Radarr/config.xml $containerURL/$lxchostname/config.xml \
+             sed -i 's#IPADRESSTOCHANGE#'"$ctIP"'#' /root/.config/Radarr/config.xml \
+             sed -i 's#APIKEYTOCHANGE#'"$( createAPIKey 32 )"'#' /root/.config/Radarr/config.xml \
+             systemctl start radarr && systemctl enable radarr"
+
+######################## Host Commands ########################
+
 pveCommands=""
