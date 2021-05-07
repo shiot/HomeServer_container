@@ -1,33 +1,51 @@
 #!/bin/bash
 
-description="${ct_description}"
-ctTemplate=osUbuntu20_04
+################### Container Configuration ###################
+
+template=osUbuntu20_04
 hddsize=16
 cpucores=2
 memory=2048
 swap=2048
 unprivileged=1
 features="nesting=1,mount=cifs;nfs"
-containerSoftware=""
-containerFolder="/mnt/backup/$lxchostname/javascript/"
-inst_samba=false
-sambaUser=""
-apparmorProfile="unconfined"
-fncneeded=false
-nasneeded=true
-dvbneeded=false
-vganeeded=false
+description="${ct_description}"
+
+#################### WebGUI Configuration #####################
+
+webgui=true
+webguiName=( "WebGUI" "WebGUI (vis)" )
+webguiPort=( "8081" "8082" )
+webguiPath=( "" "/vis/" )
+webguiUser=( "admin" "" )
+webguiPass=( "changeme" )
+webguiProt=( "changeme" "" )
+
+################### Firewall Configuration ####################
+
 fwPort=( "80" "443" "22" "8081" "8082" )
 fwNetw=( "network" "" "pnetwork" "network" "pnetwork" )
 fwProt=( "tcp" "tcp" "tcp" "tcp" "tcp" )
 fwDesc=( "HTTP" "HTTPS" "SSH" "Admin WebGUI" "ioBrokerVIS" )
-webgui=true
-webguiName=( "WebGUI" "WebGUI (vis)" )
-webguiPort=( "8081" "8082" )    
-webguiPath=( "" "/vis/" )
-webguiProt=( "http" "http" )
-webguiUser=( "admin" "" )
-webguiPass=( "changeme" "" )
-commandsFirst="curl -sLf https://iobroker.net/install.sh | bash - > /dev/null 2>&1"
-commandsSecond=""
+
+#################### Needed Hardwarebinds #####################
+
+nasneeded=true
+dvbneeded=false
+vganeeded=false
+
+####################### Needed Services #######################
+
+fncneeded=false
+smtpneeded=false
+apparmorProfile="unconfined"
+inst_samba=false
+sambaUser="User1 User2"
+
+##################### Container Commands ######################
+
+lxcCommands="curl -sLf https://iobroker.net/install.sh | bash - > /dev/null 2>&1"
+
+######################## Host Commands ########################
+
 pveCommands="iobinstallVariation"
