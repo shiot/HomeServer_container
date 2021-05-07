@@ -1,10 +1,10 @@
 #!/bin/bash
-#
+
 # variable="irgendein Text"
 # other_variable="irgendein anderer Text"
 #
 
-ct_description="3cx IP-Telefonanlage"
+ct_description0="3cx IP-Telefonanlage"
 ct_description1="Nebenstellennummer"
 ct_description2="wird per E-Mail verschickt"
 ct_description3="Ersteinrichtung"
