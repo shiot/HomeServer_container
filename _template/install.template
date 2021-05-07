@@ -2,16 +2,14 @@
 
 ################### Container Configuration ###################
 
-ctTemplate=osUbuntu20_04                                      # Name of Containertemplate - example osUbuntu20_04, osDebian9 >> see docu on docu.shiot.de
+template=osUbuntu20_04                                        # Name of Containertemplate - example osUbuntu20_04, osDebian9 >> see docu on docu.shiot.de
 hddsize=4                                                     # HDD Size in GB
 cpucores=1                                                    # Number of used CPU cores
 memory=256                                                    # Memorysize in MB (RAM)
 swap=256                                                      # SWAP size in MB (SWAP)
 unprivileged=1                                                # Privileged/Unprivileged Container, 0=False - 1=True
 features="keyctl=1,nesting=1"                                 # force_rw_sys=<1|0>,fuse=<1|0>,keyctl=<1|0>,mknod=<1|0>,mount=<fstype;fstype;...>,nesting=<1|0> in quotation marks
-
-containerFolder="/mnt/backup /media/Pictures"                 # These directories are created in the file system before the commandsFirst variable commands are executed. If a NAS is bound into the container, this has already taken place. >> Write each Folder in quotes
-containerSoftware="curl wget"                                 # Software packages that need to be installed - process starts after "commandsFirst" Variable >> Write each package in quotes
+description="${ct_description}"                               # Lädt die Containerbeschreibung aus der Sprachdatei. Das sieht am besten aus wenn du nicht mehr als 50-55 Zeichen nutzt.
 
 #################### WebGUI Configuration #####################
 
@@ -39,6 +37,7 @@ vganeeded=false                                               # Bind Graphic Car
 ####################### Needed Services #######################
 
 fncneeded=false                                               # Loads the file "functions.template" from the installation directory in web and includes it
+smtpneeded=false                                              # Asks the user for the mail server password if it is needed 
 apparmorProfile=""                                            # change the App-Armor profile in the container - possible (unconfined, unchanged, generated) >> leave blank for standard settings
 inst_samba=false                                              # Install Samba in Container >> true or false
 sambaUser="User1 User2"                                       # Users for whom a Samba share is to be created. Login data can be found in the container description in the Proxmox WebGUI.Passwords can be changed in the container shell with the command >> smbpasswd -a USERNAME <<.
@@ -52,11 +51,11 @@ sambaUser="User1 User2"                                       # Users for whom a
 # or download a Docker-Compose configuration file 
 # wget -qO - /root/docker/file.conf https://example.domain.com/file.conf
 # Finish every Command line with space Backslash space. If you install a SQL database and need to do a SQL secure, this can be done with the command/call to the function
-# lxc_SQLSecure
+# makeSQLSecure
 
-commandsFirst="Command1 \
-               Command2 \
-               Command3"
+lxcCommands="Command1 \
+             Command2 \
+             Command3"
 
 ######################## Host Commands ########################
 
