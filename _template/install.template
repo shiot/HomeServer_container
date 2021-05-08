@@ -2,7 +2,7 @@
 
 ################### Container Configuration ###################
 
-template=osUbuntu20_04                                        # Name of Containertemplate - example osUbuntu20_04, osDebian9 >> see docu on docu.shiot.de
+template=${osUbuntu20_04}                                        # Name of Containertemplate - example osUbuntu20_04, osDebian9 >> see docu on docu.shiot.de
 hddsize=4                                                     # HDD Size in GB
 cpucores=1                                                    # Number of used CPU cores
 memory=256                                                    # Memorysize in MB (RAM)

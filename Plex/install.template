@@ -2,7 +2,7 @@
 
 ################### Container Configuration ###################
 
-template=osUbuntu20_04
+template=${osUbuntu20_04}
 hddsize=8
 cpucores=1
 memory=2048

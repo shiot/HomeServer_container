@@ -2,7 +2,7 @@
 
 ################### Container Configuration ###################
 
-template=osDebian9
+template=${osDebian9}
 hddsize=32
 cpucores=1
 memory=1024
