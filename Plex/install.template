@@ -44,13 +44,13 @@ sambaUser=""
 
 ##################### Container Commands ######################
 
-lxcCommands="wget -q https://downloads.plex.tv/plex-keys/PlexSign.key -O - | apt-key add - > /dev/null 2>&1 \
-             echo \"deb https://downloads.plex.tv/repo/deb/ public main\" | tee /etc/apt/sources.list.d/plexmediaserver.list > /dev/null 2>&1 \
-             apt-get install -y plexmediaserver > /dev/null 2>&1 \
-             mkdir -p /media/Movies/ > /dev/null 2>&1 \
-             mkdir -p /media/Series/ > /dev/null 2>&1 \
-             mkdir -p /media/Photos/ > /dev/null 2>&1 \
-             systemctl start plexmediaserver && systemctl enable plexmediaserver > /dev/null 2>&1 \
+lxcCommands="wget -q https://downloads.plex.tv/plex-keys/PlexSign.key -O - | apt-key add - > /dev/null 2>&1
+             echo \"deb https://downloads.plex.tv/repo/deb/ public main\" | tee /etc/apt/sources.list.d/plexmediaserver.list > /dev/null 2>&1
+             apt-get install -y plexmediaserver > /dev/null 2>&1
+             mkdir -p /media/Movies/ > /dev/null 2>&1
+             mkdir -p /media/Series/ > /dev/null 2>&1
+             mkdir -p /media/Photos/ > /dev/null 2>&1
+             systemctl start plexmediaserver && systemctl enable plexmediaserver > /dev/null 2>&1
              sed -i 's+# deb+deb+' /etc/apt/sources.list.d/plexmediaserver.list"
 
 ######################## Host Commands ########################

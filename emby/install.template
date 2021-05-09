@@ -44,10 +44,10 @@ sambaUser=""
 
 ##################### Container Commands ######################
 
-lxcCommands="wget -q https://github.com/MediaBrowser/Emby.Releases/releases/download/$( getLatestGit \"MediaBrowser/Emby.Releases\" )/emby-server-deb_$( getLatestGit \"MediaBrowser/Emby.Releases\" )_amd64.deb \
-             dpkg -i emby-server-deb_*_amd64.deb > /dev/null 2>&1 \
-             rm emby-server-deb_*_amd64.deb \
-             systemctl start emby-server && systemctl enable emby-server > /dev/null 2>&1"
+lxcCommands="wget -q https://github.com/MediaBrowser/Emby.Releases/releases/download/$( getLatestGit \"MediaBrowser/Emby.Releases\" )/emby-server-deb_$( getLatestGit \"MediaBrowser/Emby.Releases\" )_amd64.deb
+            dpkg -i emby-server-deb_*_amd64.deb > /dev/null 2>&1
+            rm emby-server-deb_*_amd64.deb
+            systemctl start emby-server && systemctl enable emby-server > /dev/null 2>&1"
 
 ######################## Host Commands ########################
 

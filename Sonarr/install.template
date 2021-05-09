@@ -44,16 +44,16 @@ sambaUser="User1 User2"
 
 ##################### Container Commands ######################
 
-lxcCommands="apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0xA236C58F409091A18ACA53CBEBFF6B99D9B78493 \
-             echo \"deb http://apt.sonarr.tv/ master main\" | tee /etc/apt/sources.list.d/sonarr.list \
-             apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
-             echo \"deb https://download.mono-project.com/repo/ubuntu stable-focal main\" | tee /etc/apt/sources.list.d/mono-official-stable.list \
-             apt-get install -y mono-devel mediainfo nzbdrone > /dev/null 2>&1 \
-             mkdir -p /media/Series/ > /dev/null 2>&1 \
-             wget -qO /etc/systemd/system/sonarr.service $containerURL/$lxchostname/sonarr.service \
-             wget -qO /root/.config/NzbDrone/config.xml $containerURL/$lxchostname/config.xml \
-             sed -i 's#IPADRESSTOCHANGE#'"$ctIP"'#' /root/.config/NzbDrone/config.xml \
-             sed -i 's#APIKEYTOCHANGE#'"$( createAPIKey 32 )"'#' /root/.config/NzbDrone/config.xml \
+lxcCommands="apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0xA236C58F409091A18ACA53CBEBFF6B99D9B78493
+             echo \"deb http://apt.sonarr.tv/ master main\" | tee /etc/apt/sources.list.d/sonarr.list
+             apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+             echo \"deb https://download.mono-project.com/repo/ubuntu stable-focal main\" | tee /etc/apt/sources.list.d/mono-official-stable.list
+             apt-get install -y mono-devel mediainfo nzbdrone > /dev/null 2>&1
+             mkdir -p /media/Series/ > /dev/null 2>&1
+             wget -qO /etc/systemd/system/sonarr.service $containerURL/$lxchostname/sonarr.service
+             wget -qO /root/.config/NzbDrone/config.xml $containerURL/$lxchostname/config.xml
+             sed -i 's#IPADRESSTOCHANGE#'"$ctIP"'#' /root/.config/NzbDrone/config.xml
+             sed -i 's#APIKEYTOCHANGE#'"$( createAPIKey 32 )"'#' /root/.config/NzbDrone/config.xml
              systemctl start sonarr && systemctl enable sonarr"
 
 ######################## Host Commands ########################

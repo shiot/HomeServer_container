@@ -44,13 +44,13 @@ sambaUser=""
 
 ##################### Container Commands ######################
 
-lxcCommands="add-apt-repository universe \
-             wget -O - https://repo.jellyfin.org/ubuntu/jellyfin_team.gpg.key | apt-key add - > /dev/null 2>&1 \
-             echo \"deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/ubuntu $( lsb_release -c -s ) main\" | tee /etc/apt/sources.list.d/jellyfin.list > /dev/null 2>&1 \
-             apt-get install -y jellyfin > /dev/null 2>&1 \
-             mkdir -p /media/Movies/ \
-             mkdir -p /media/Series/ \
-             mkdir -p /media/Photos/ \
+lxcCommands="add-apt-repository universe
+             wget -O - https://repo.jellyfin.org/ubuntu/jellyfin_team.gpg.key | apt-key add - > /dev/null 2>&1
+             echo \"deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/ubuntu $( lsb_release -c -s ) main\" | tee /etc/apt/sources.list.d/jellyfin.list > /dev/null 2>&1
+             apt-get install -y jellyfin > /dev/null 2>&1
+             mkdir -p /media/Movies/
+             mkdir -p /media/Series/
+             mkdir -p /media/Photos/
              systemctl start jellyfin && systemctl enable jellyfin > /dev/null 2>&1"
 
 ######################## Host Commands ########################

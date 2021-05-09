@@ -44,22 +44,22 @@ sambaUser="User1 User2"
 
 ##################### Container Commands ######################
 
-lxcCommands="apt-get install software-properties-common \
-             add-apt-repository multiverse \
-             add-apt-repository universe \
-             add-apt-repository ppa:jcfp/nobetas \
-             add-apt-repository ppa:jcfp/sab-addons \
-             apt-get install -y sabnzbdplus > /dev/null 2>&1 \
-             mkdir -p /media/Downloads/incomplete > /dev/null 2>&1 \
-             mkdir -p /media/Downloads/complete > /dev/null 2>&1 \
-             mkdir -p /media/Downloads/manualNZB > /dev/null 2>&1 \
-             wget -qO /root/.sabnzbd/sabnzbd.ini $containerURL/$lxchostname/sabnzbd.ini \
-             sed -i 's+IPADRESSTOCHANGE=+'"$ctIP"'+' /root/.sabnzbd/sabnzbd.ini \
-             sed -i 's+APIKEYTOCHANGE=+'"$( createAPIKey 32 )"'+' /root/.sabnzbd/sabnzbd.ini \
-             sed -i 's+NZBAPIKEYTOCHANGE=+'"$( createAPIKey 32 )"'+' /root/.sabnzbd/sabnzbd.ini \
-             sed -i 's+USER=+USER=root+' /etc/default/sabnzbdplus \
-             sed -i 's+HOST=+HOST='"$ctIP"'+' /etc/default/sabnzbdplus \
-             sed -i 's+PORT=+PORT=80+' /etc/default/sabnzbdplus \
+lxcCommands="apt-get install software-properties-common
+             add-apt-repository multiverse
+             add-apt-repository universe
+             add-apt-repository ppa:jcfp/nobetas
+             add-apt-repository ppa:jcfp/sab-addons
+             apt-get install -y sabnzbdplus > /dev/null 2>&1
+             mkdir -p /media/Downloads/incomplete > /dev/null 2>&1
+             mkdir -p /media/Downloads/complete > /dev/null 2>&1
+             mkdir -p /media/Downloads/manualNZB > /dev/null 2>&1
+             wget -qO /root/.sabnzbd/sabnzbd.ini $containerURL/$lxchostname/sabnzbd.ini
+             sed -i 's+IPADRESSTOCHANGE=+'"$ctIP"'+' /root/.sabnzbd/sabnzbd.ini
+             sed -i 's+APIKEYTOCHANGE=+'"$( createAPIKey 32 )"'+' /root/.sabnzbd/sabnzbd.ini
+             sed -i 's+NZBAPIKEYTOCHANGE=+'"$( createAPIKey 32 )"'+' /root/.sabnzbd/sabnzbd.ini
+             sed -i 's+USER=+USER=root+' /etc/default/sabnzbdplus
+             sed -i 's+HOST=+HOST='"$ctIP"'+' /etc/default/sabnzbdplus
+             sed -i 's+PORT=+PORT=80+' /etc/default/sabnzbdplus
              systemctl start sabnzbdplus && systemctl enable sabnzbdplus"
 
 ######################## Host Commands ########################

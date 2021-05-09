@@ -44,11 +44,11 @@ sambaUser=""
 
 ##################### Container Commands ######################
 
-lxcCommands="apt-get install -y docker.io docker-compose > /dev/null 2>&1 \
-             systemctl start docker && systemctl enable docker > /dev/null 2>&1 \
-             mkdir -p /root/npm/ > /dev/null 2>&1 \
-             wget -qO /root/npm/docker-compose.yml $containerURL/$lxchostname/docker-compose.yml \
-             sed -i 's#ROOTPASSWORDTOCHANGE#'"$ctRootpw"'#g' /root/npm/docker-compose.yml \
+lxcCommands="apt-get install -y docker.io docker-compose > /dev/null 2>&1
+             systemctl start docker && systemctl enable docker > /dev/null 2>&1
+             mkdir -p /root/npm/ > /dev/null 2>&1
+             wget -qO /root/npm/docker-compose.yml $containerURL/$lxchostname/docker-compose.yml
+             sed -i 's#ROOTPASSWORDTOCHANGE#'"$ctRootpw"'#g' /root/npm/docker-compose.yml
              cd /root/npm && docker-compose up -d --quiet-pull > /dev/null 2>&1"
 
 ######################## Host Commands ########################
