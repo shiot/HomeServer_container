@@ -14,7 +14,7 @@ description="${ct_description}"
 #################### WebGUI Configuration #####################
 
 webgui=true
-webguiName=( "WebGUI (Admin)" "WebGUI (${lng_user})" "WebGUI (${ct_description3})" )
+webguiName=( "WebGUI (Admin)" "WebGUI (${lng_wrd_user})" "WebGUI (${ct_description3})" )
 webguiPort=( "5001" "5001/webclient" "5015?v=2" )
 webguiPath=( "" "" "" )
 webguiUser=( "" "${ct_description1}" "" )
