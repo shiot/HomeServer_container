@@ -50,8 +50,8 @@ lxcCommands="apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0xA236C58F
              echo \"deb https://download.mono-project.com/repo/ubuntu stable-focal main\" | tee /etc/apt/sources.list.d/mono-official-stable.list
              apt-get install -y mono-devel mediainfo nzbdrone > /dev/null 2>&1
              mkdir -p /media/Series/ > /dev/null 2>&1
-             wget -qO /etc/systemd/system/sonarr.service $containerURL/$lxchostname/sonarr.service
-             wget -qO /root/.config/NzbDrone/config.xml $containerURL/$lxchostname/config.xml
+             wget -qO /etc/systemd/system/sonarr.service $repoUrlLXC/$hostname/sonarr.service
+             wget -qO /root/.config/NzbDrone/config.xml $repoUrlLXC/$hostname/config.xml
              sed -i 's#IPADRESSTOCHANGE#'"$ctIP"'#' /root/.config/NzbDrone/config.xml
              sed -i 's#APIKEYTOCHANGE#'"$( createAPIKey 32 )"'#' /root/.config/NzbDrone/config.xml
              systemctl start sonarr && systemctl enable sonarr"
