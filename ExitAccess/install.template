@@ -46,17 +46,18 @@ sambaUser="pivpn"
 
 lxcCommands="mkdir -p /etc/pihole/
             mkdir -p /etc/pivpn/openvpn/
-            wget -qO /etc/pihole/setupVars.conf $containerURL/$lxchostname/piHole_setupVars.conf
+            wget -qO /etc/pihole/setupVars.conf $repoUrlLXC/$hostname/piHole_setupVars.conf
             sed -i 's#IPADRESSTOCHANGE#'"$ctIP"'#g' /etc/pihole/setupVars.conf
             sed -i 's#CIDRTOCHANGE#'"$cidr"'#g' /etc/pihole/setupVars.conf
             curl -sSL https://install.pi-hole.net | bash /dev/stdin --unattended > /dev/null 2>&1
             /usr/local/bin/pihole -a -p changeme > /dev/null 2>&1
-            curl -sSL $containerURL/$lxchostname/updateAdlistPihole.sh | bash
-            wget -qO /root/updateAdlistPihole.sh $containerURL/$lxchostname/updateAdlistPihole.sh && chmod +x /root/updateAdlistPihole.sh
+            curl -sSL $repoUrlLXC/$hostname/updateAdlistPihole.sh | bash
+            wget -qO /root/updateAdlistPihole.sh $repoUrlLXC/$hostname/updateAdlistPihole.sh && chmod +x /root/updateAdlistPihole.sh
             crontab -l | { cat; echo \"0 03 1,14 * *   root    /root/updateAdlistPihole.sh\"; } | crontab -
-            wget -qO /etc/pivpn/openvpn/setupVars.conf $containerURL/$lxchostname/piVPN_setupVars.conf
+            wget -qO /etc/pivpn/openvpn/setupVars.conf $repoUrlLXC/$hostname/piVPN_setupVars.conf
             sed -i 's#VPNUSERTOCHANGE#'"$sambaUser"'#g' /etc/pihole/setupVars.conf
-            lxcfqdn=$(whiptail --inputbox --nocancel --backtitle "SmartHome-IoT.net - piVPN" --title "Hostname - ${pivpn_title}" "${pivpn_text}" ${r} ${c} $publicIP 3>&1 1>&2 2>&3) && sed -i 's#HOSTTOCHANGE#'"$lxcfqdn"'#g' /etc/pivpn/openvpn/setupVars.conf
+            lxcfqdn=$(whiptail --inputbox --nocancel --backtitle "SmartHome-IoT.net - piVPN" --title "Hostname - ${pivpn_title}" "${pivpn_text}" ${r} ${c} $publicIP 3>&1 1>&2 2>&3)
+            sed -i 's#HOSTTOCHANGE#'"$lxcfqdn"'#g' /etc/pivpn/openvpn/setupVars.conf
             curl -sSL https://install.pivpn.io | bash /dev/stdin --unattended /etc/pivpn/openvpn/setupVars.conf > /dev/null 2>&1
             export PATH=\"/usr/local/bin:$PATH\"
             echo \"interface=tun0\" > /etc/dnsmasq.d/02-pivpn.conf
