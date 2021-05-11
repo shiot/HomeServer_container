@@ -53,7 +53,7 @@ lxcCommands="apt-get install software-properties-common
              mkdir -p /media/Downloads/incomplete > /dev/null 2>&1
              mkdir -p /media/Downloads/complete > /dev/null 2>&1
              mkdir -p /media/Downloads/manualNZB > /dev/null 2>&1
-             wget -qO /root/.sabnzbd/sabnzbd.ini $containerURL/$lxchostname/sabnzbd.ini
+             wget -qO /root/.sabnzbd/sabnzbd.ini $repoUrlLXC/$hostname/sabnzbd.ini
              sed -i 's+IPADRESSTOCHANGE=+'"$ctIP"'+' /root/.sabnzbd/sabnzbd.ini
              sed -i 's+APIKEYTOCHANGE=+'"$( createAPIKey 32 )"'+' /root/.sabnzbd/sabnzbd.ini
              sed -i 's+NZBAPIKEYTOCHANGE=+'"$( createAPIKey 32 )"'+' /root/.sabnzbd/sabnzbd.ini
