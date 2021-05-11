@@ -51,8 +51,8 @@ lxcCommands="apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3
              tar -xvzf Radarr.*.linux.tar.gz
              mv Radarr /opt
              mkdir -p /media/Movies > /dev/null 2>&1
-             wget -qO /etc/systemd/system/radarr.service $containerURL/$lxchostname/radarr.service
-             wget -qO /root/.config/Radarr/config.xml $containerURL/$lxchostname/config.xml
+             wget -qO /etc/systemd/system/radarr.service $repoUrlLXC/$hostname/radarr.service
+             wget -qO /root/.config/Radarr/config.xml $repoUrlLXC/$hostname/config.xml
              sed -i 's#IPADRESSTOCHANGE#'"$ctIP"'#' /root/.config/Radarr/config.xml
              sed -i 's#APIKEYTOCHANGE#'"$( createAPIKey 32 )"'#' /root/.config/Radarr/config.xml
              systemctl start radarr && systemctl enable radarr"
