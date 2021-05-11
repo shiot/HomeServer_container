@@ -17,11 +17,11 @@ restoreAdapter="parser javascript web vis "
 
 function iobinstallVariation() {
 # Function asks the user if ioBroker should be installed normally or for a restore
-  variation=$(whiptail --nocancel --backtitle "© 2021 - SmartHome-IoT.net - $lxchostname" --title "$lxchostname $lng_configuration" --menu "$iob_config_text" 25 78 16 \ 
+  variation=$(whiptail --nocancel --backtitle "© 2021 - SmartHome-IoT.net - $hostname" --title "$hostname $lng_wrd_configuration" --menu "$iob_config_text" 25 78 16 \ 
               "1" "${iob_config_choose_text}" \ 
               "2" "${iob_config_choose_text1}" 3>&1 1>&2 2>&3)
   if [[ $variation == "2" ]]; then
-    restorevariation=$(whiptail --yesno --backtitle "© 2021 - SmartHome-IoT.net - $lxchostname" --title "$lxchostname $lng_configuration" "$iob_config_restore_mthod" 20 70 3>&1 1>&2 2>&3)
+    restorevariation=$(whiptail --yesno --backtitle "© 2021 - SmartHome-IoT.net - $hostname" --title "$hostname $lng_wrd_configuration" "$iob_config_restore_method" 20 70 3>&1 1>&2 2>&3)
     yesno=$?
     if [[ $yesno == 0 ]]; then
       iobinstallAdapter 1
@@ -42,9 +42,9 @@ function iobinstallAdapter() {
     for adp in $standardAdapter; do
       pct exec $ctID -- bash -ci "iobroker add iobroker.$adp > /dev/null 2>&1"
     done
-    pct exec $ctID -- bash -ci "mkdir -p /mnt/backup/$lxchostname/javascript/"
-    pct exec $ctID -- bash -ci "iobroker set javascript.0 --mirrorPath \"/mnt/backup/$lxchostname/javascript/\" --enableSetObject true --enableExec true --enableSendToHost true > /dev/null 2>&1"
-    vislicensecode=$(whiptail --inputbox --nocancel --backtitle "© 2021 - SmartHome-IoT.net - $lxchostname" --title "$lxchostname $lng_configuration" "$iob_config_vis_license" 20 70 3>&1 1>&2 2>&3)
+    pct exec $ctID -- bash -ci "mkdir -p /mnt/backup/$hostname/javascript/"
+    pct exec $ctID -- bash -ci "iobroker set javascript.0 --mirrorPath \"/mnt/backup/$hostname/javascript/\" --enableSetObject true --enableExec true --enableSendToHost true > /dev/null 2>&1"
+    vislicensecode=$(whiptail --inputbox --nocancel --backtitle "© 2021 - SmartHome-IoT.net - $hostname" --title "$hostname $lng_wrd_configuration" "$iob_config_vis_license" 20 70 3>&1 1>&2 2>&3)
     pct exec $ctID -- bash -ci "iobroker set vis.0 --license "$vislicensecode" > /dev/null 2>&1"
     pct exec $ctID -- bash -ci "iobroker set influxdb.0 --host $(lxc-info $(pct list | grep iDBGrafana | awk '{print $1}') -iH) --user iobroker --password $ctRootpw --passwordConfirm $ctRootpw --dbname iobroker > /dev/null 2>&1"
     pct exec $ctID -- bash -ci "iobroker set proxmox.0 --ip $pveIP --name $var_robotname --select-options-225a0870-9529-3d5e-9970-0bbdb092c4d21 true --pwd $var_robotpw > /dev/null 2>&1"
