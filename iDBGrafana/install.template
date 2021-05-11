@@ -50,7 +50,7 @@ lxcCommands="wget -qO - https://repos.influxdata.com/influxdb.key | apt-key add 
             echo \"deb https://packages.grafana.com/oss/deb stable main\" > /etc/apt/sources.list.d/grafana.list
             apt-get install -y influxdb grafana > /dev/null 2>&1
             mkdir -p /var/lib/grafana/dashboards/
-            wget -qO /var/lib/grafana/dashboards/proxmox.json $containerURL/$lxchostname/pveDashboard.json && chown grafana:grafana /var/lib/grafana/dashboards/proxmox.json
+            wget -qO /var/lib/grafana/dashboards/proxmox.json $repoUrlLXC/$hostname/pveDashboard.json && chown grafana:grafana /var/lib/grafana/dashboards/proxmox.json
             echo -e \"[[udp]]\n enabled = true\n bind-address = \"0.0.0.0:8089\"\n database = \"proxmox\"\n batch-size = 1000\n batch-timeout = \"1s\" >> /etc/influxdb/influxdb.conf
             sed -i 's+;default_home_dashboard_path =+default_home_dashboard_path = /var/lib/grafana/dashboards/proxmox.json+g' /etc/grafana/grafana.ini
             sed -n -i '$!N; s/\# enable anonymous access\n\;enabled = false/\# enable anonymous access\n\enabled = true/g;p' /etc/grafana/grafana.ini
